@@ -73,7 +73,7 @@ namespace PASS3
             scoreBoard = new ScoreBoard(Content, scores, GraphicsDevice);
 
             // set inital gameState
-            Globals.GameState = ScoreBoard.GAMESTATE;
+            Globals.GameState = Menu.GAMESTATE;
 
             // TODO: use this.Content to load your game content here
         }

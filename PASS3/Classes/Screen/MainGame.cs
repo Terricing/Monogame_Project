@@ -17,6 +17,7 @@ using Animation2D;
 using PASS3.Classes.Components;
 using PASS3.Classes;
 using Helper;
+using PASS3.Classes.Screen.Cutscenes;
 
 namespace PASS3
 {
@@ -42,6 +43,7 @@ namespace PASS3
         private Vector2 scorePos;
         private string scoreText;
 
+        private CutsceneManager cutSceneManager;
 
         private LifeManager lifeManager;
 
@@ -87,6 +89,9 @@ namespace PASS3
                     }
 
                     level2.Update(gameTime, kb);
+                    break;
+                case CutsceneManager.LEVELSTATE:
+                    cutSceneManager.Update();
                     break;
             }
 
