@@ -60,6 +60,7 @@ namespace PASS3.Classes.Screen
         private Helper.GameRectangle resultBg;
         private bool showResult = false;
         private string searchResult;
+        private string closeMessage = "Press Enter to Close";
 
         public ScoreBoard(ContentManager content, ScoreKeeper scores, GraphicsDevice gd)
         {
@@ -215,37 +216,43 @@ namespace PASS3.Classes.Screen
 
                     case SCORE:
                         //Console.WriteLine(keys[0].ToString());
-                        // check if input is allowed
-                        if (allowedScore.Contains(keys[0].ToString()))
-                        { 
-                            // check if input matches previous input
-                            if (prevKeys.Length > 0)
-                            {
-                                try
+
+                        // Only add to search if number is less than maxAmount, otherwise an error will occur
+                        if (search.Length < 6)
+                        {
+                            // check if input is allowed
+                            if (allowedScore.Contains(keys[0].ToString()))
+                            { 
+                                // check if input matches previous input
+                                if (prevKeys.Length > 0)
                                 {
-                                    if (keys[0] != prevKeys[0])
+                                    try
+                                    {
+                                        if (keys[0] != prevKeys[0])
+                                        {
+                                            // add input to search string
+                                            search += keys[0].ToString()[1];
+                                        }
+                                    }
+                                    catch (IndexOutOfRangeException)
+                                    {
+
+                                    }
+                                }
+                                else
+                                {
+                                    try
                                     {
                                         // add input to search string
                                         search += keys[0].ToString()[1];
                                     }
+                                    catch (IndexOutOfRangeException)
+                                    {
+                                        // do nothing if caught
+                                    }
                                 }
-                                catch (IndexOutOfRangeException)
-                                {
+                            }
 
-                                }
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    // add input to search string
-                                    search += keys[0].ToString()[1];
-                                }
-                                catch (IndexOutOfRangeException)
-                                {
-                                    // do nothing if caught
-                                }
-                            }
                         }
                         break;
                 }
@@ -265,13 +272,22 @@ namespace PASS3.Classes.Screen
             searchBtn.Draw(spriteBatch);
 
             // Draw search text
-            spriteBatch.DrawString(searchText, search, new Vector2(0, 0), Color.White);
+            spriteBatch.DrawString(searchText, search, new Vector2(Globals.GAME_WIDTH / 2 - searchText.MeasureString(search).X / 2, Globals.GAME_HEIGHT / 2), Color.White);
 
             if (showResult)
             {
                 //spriteBatch.DrawRectangle(resultRect, Color.Aqua, 5, 1);
                 resultBg.Draw(spriteBatch, Color.Aqua, true);
                 spriteBatch.DrawString(searchText, searchResult, new Vector2(Globals.GAME_WIDTH / 2 - searchText.MeasureString(searchResult).X / 2, Globals.GAME_HEIGHT / 2 - searchText.MeasureString(searchResult).Y / 2), Color.DarkGray);
+                spriteBatch.DrawString(searchText, closeMessage, new Vector2(Globals.GAME_WIDTH / 2f - searchText.MeasureString(closeMessage).X / 2, Globals.GAME_HEIGHT /  1.13f), Color.White);
+
+                if (kb.IsKeyDown(Keys.Enter))
+                {
+                    showResult = false;
+                    search = "";
+                    nameBtn.IsSelected = false;
+                    scoreBtn.IsSelected = false;
+                }
             }
 
             spriteBatch.End();
