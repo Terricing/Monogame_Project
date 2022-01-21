@@ -39,10 +39,12 @@ namespace PASS3
         // store levels
         private Level1 level1;
         private Level2 level2;
+        private Level3 level3;
 
         // store scenes
         Scene1 scene1;
         Scene2 scene2;
+        Scene3 scene3;
 
         private int score;
         private Timer scoreTimer;
@@ -67,6 +69,7 @@ namespace PASS3
             // create scenes
             scene1 = new Scene1(content, gd);
             scene2 = new Scene2(content, gd);
+            scene3 = new Scene3(content, gd);
 
         }
 
@@ -83,12 +86,19 @@ namespace PASS3
             level2 = new Level2("Screens/Game/Stage2/bg", content, lifeManager);
             level2.LoadContent();
 
+            level3 = new Level3(content, lifeManager);
+            level3.LoadContent();
+
             // load scenes
             scene1.LoadContent(name);
             scene2.LoadContent();
+            scene3.LoadContent();
 
-            state = SCENE;
-            sceneState = Scene1.SCENESTATE;
+            //state = SCENE;
+            //sceneState = Scene1.SCENESTATE;
+
+            state = GAME;
+            Globals.LevelState = Level3.LEVEL;
 
             score = 0;
         }
@@ -114,19 +124,17 @@ namespace PASS3
 
                             break;
                         case Level2.LEVEL:
-                            //if (level1.IsTransition())
-                            //{
-                            //    level1.BgScroll(gameTime);
-                            //    level1.IsLevelFinished = true;
-                            //}
-                            //else if (level1.IsLevelFinished)
-                            //{
-                            //    cutsceneManager.SceneState = Scene2.SCENESTATE;
-                            //    Globals.GameState = CutsceneManager.GAMESTATE;
-                            //}
+                            if (level2.IsLevelFinished)
+                            {
+                                state = SCENE;
+                                sceneState = Scene3.SCENESTATE;
+                            }
 
 
                             level2.Update(gameTime, kb);
+                            break;
+                        case Level3.LEVEL:
+                            level3.Update(gameTime, kb);
                             break;
                     }
 
@@ -163,6 +171,15 @@ namespace PASS3
                                 Globals.LevelState = Level2.LEVEL;
                             }
                             break;
+                        case Scene3.SCENESTATE:
+                            scene3.Update(gameTime);
+                            if (scene3.IsOver)
+                            {
+                                state = GAME;
+                                Globals.LevelState = Level3.LEVEL;
+                            }
+
+                            break;
                     }
                     break;
             }
@@ -188,6 +205,9 @@ namespace PASS3
                             //}    
                             level2.Draw(spriteBatch);
                             break;
+                        case Level3.LEVEL:
+                            level3.Draw(spriteBatch);
+                            break;
                     }
 
                     lifeManager.Draw(spriteBatch);
@@ -202,6 +222,9 @@ namespace PASS3
                             break;
                         case Scene2.SCENESTATE:
                             scene2.Draw(spriteBatch);
+                            break;
+                        case Scene3.SCENESTATE:
+                            scene3.Draw(spriteBatch);
                             break;
                     }
 

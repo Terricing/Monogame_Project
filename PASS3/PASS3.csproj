@@ -63,16 +63,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Components\Boss\Hand.cs" />
+    <Compile Include="Classes\Components\Boss\Head.cs" />
+    <Compile Include="Classes\Components\Boss\LeftHand.cs" />
+    <Compile Include="Classes\Components\Boss\RightHand.cs" />
     <Compile Include="Classes\Components\Button.cs" />
     <Compile Include="Classes\Components\LifeManager.cs" />
     <Compile Include="Classes\Globals.cs" />
     <Compile Include="Classes\Levels\Level.cs" />
     <Compile Include="Classes\Levels\Level1.cs" />
     <Compile Include="Classes\Levels\Level2.cs" />
+    <Compile Include="Classes\Levels\Level3.cs" />
     <Compile Include="Classes\LinkedList.cs" />
     <Compile Include="Classes\Screen\Cutscenes\CutsceneManager.cs" />
     <Compile Include="Classes\Screen\Cutscenes\Scene1.cs" />
     <Compile Include="Classes\Screen\Cutscenes\Scene2.cs" />
+    <Compile Include="Classes\Screen\Cutscenes\Scene3.cs" />
     <Compile Include="Classes\Screen\Cutscenes\StartScene.cs" />
     <Compile Include="Classes\Screen\GameOver.cs" />
     <Compile Include="Classes\Screen\ObstacleManager.cs" />

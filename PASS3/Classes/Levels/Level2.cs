@@ -30,19 +30,17 @@ namespace PASS3.Classes.Levels
         public override void LoadContent()
         {
             base.LoadContent();
-            obsMan = new ObstacleManager(20, obstacles, 3, 300);
+            //obsMan = new ObstacleManager(20, obstacles, 3, 300);
+            obsMan = new ObstacleManager(3, obstacles, 3, 300);
         }
 
         public override void Update(GameTime gameTime, KeyboardState kb)
         {
             base.Update(gameTime, kb);
-
-            //// if level is finished
-            //if (obsMan.IsLevelFinished())
-            //{
-
-            //}
-
+            if (obsMan.IsLevelFinished())
+            {
+                isLevelFinished = true;
+            }
             obsMan.Update(gameTime, player);
         }
 
