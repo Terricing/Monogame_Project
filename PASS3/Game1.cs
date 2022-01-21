@@ -76,7 +76,7 @@ namespace PASS3
             // set inital gameState
             Globals.GameState = Menu.GAMESTATE;
 
-            cutsceneManager = new CutsceneManager(Content, mainGame);
+            cutsceneManager = new CutsceneManager(Content, mainGame, GraphicsDevice);
             // TODO: use this.Content to load your game content here
         }
 

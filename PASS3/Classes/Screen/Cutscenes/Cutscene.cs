@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using PASS3.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,10 +35,22 @@ namespace PASS3
 
         // maintain state
         protected bool isOver = false;
+
+        // Get input
+        private KeyboardState kb;
+        private KeyboardState prevKb;
         
-        public Cutscene(ContentManager content)
+
+        // create rectangle to display text on
+        private Rectangle primitiveRect;
+        private Helper.GameRectangle rect;
+        
+        public Cutscene(ContentManager content, GraphicsDevice gd)
         {
             textFont = content.Load<SpriteFont>("Fonts/cutsceneText");
+            primitiveRect = new Rectangle(0, (int)(Globals.GAME_HEIGHT / 1.3), (int)(Globals.GAME_WIDTH / 1.3), (int)(Globals.GAME_HEIGHT / 6));
+            primitiveRect.X = Globals.GAME_WIDTH / 2 - primitiveRect.Width / 2;
+            rect = new Helper.GameRectangle(gd, primitiveRect);
         }
 
         public void LoadContent()
@@ -50,6 +64,9 @@ namespace PASS3
 
         public virtual void Update(GameTime gameTime)
         {
+            prevKb = kb;
+            kb = Keyboard.GetState();
+
             // animate text
             if (isGoing)
             {
@@ -57,6 +74,11 @@ namespace PASS3
                 {
                     if (iteration < fullText[textIteration].Length - 1)
                     {
+                        //if ((rect.Left + rect.Width / 50) + textFont.MeasureString(shownText).X > (rect.Right - rect.Width / 50))
+                        //{
+                        //    shownText += "\n";
+                        //}
+
                         iteration++;
                         shownText += fullText[textIteration][iteration];
                     }
@@ -69,13 +91,28 @@ namespace PASS3
 
                 timeIncrement += gameTime.ElapsedGameTime.Milliseconds;
             }
+            else
+            {
+                if (kb.IsKeyDown(Keys.Enter))
+                {
+                    if (textIteration < fullText.Length - 1)
+                    {
+                        textIteration++;
+                    }
+                    else
+                    {
+                        isOver = true;
+                    }
+                }
+            }
 
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             //bg.Draw(spriteBatch);
-            spriteBatch.DrawString(textFont, shownText, new Vector2(), Color.White);
+            rect.Draw(spriteBatch, Color.ForestGreen, true);
+            spriteBatch.DrawString(textFont, shownText, new Vector2(rect.Left + rect.Width / 50, rect.Top + rect.Height / 30), Color.White);
         }
 
         public bool IsOver

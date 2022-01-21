@@ -19,12 +19,12 @@ namespace PASS3.Classes.Screen.Cutscenes
 
         MainGame mainGame; 
 
-        public CutsceneManager(ContentManager content, MainGame mainGame)
+        public CutsceneManager(ContentManager content, MainGame mainGame, GraphicsDevice gd)
         {
             this.mainGame = mainGame;
 
             startScene = new StartScene(content);
-            scene1 = new Scene1(content);
+            scene1 = new Scene1(content, gd);
 
             sceneState = StartScene.SCENESTATE;
         }
