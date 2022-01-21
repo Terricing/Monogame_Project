@@ -40,7 +40,6 @@ namespace PASS3
         private KeyboardState kb;
         private KeyboardState prevKb;
         
-
         // create rectangle to display text on
         private Rectangle primitiveRect;
         private Helper.GameRectangle rect;
@@ -93,11 +92,15 @@ namespace PASS3
             }
             else
             {
-                if (kb.IsKeyDown(Keys.Enter))
+                if (kb.IsKeyDown(Keys.Enter) && !prevKb.IsKeyDown(Keys.Enter))
                 {
-                    if (textIteration < fullText.Length - 1)
+                    if (textIteration < fullText.Length-1)
                     {
                         textIteration++;
+                        isGoing = true;
+                        shownText = "";
+                        timeIncrement = 0;
+                        iteration = 0;
                     }
                     else
                     {

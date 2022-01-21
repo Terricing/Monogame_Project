@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using PASS3.Classes.Levels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace PASS3.Classes.Screen.Cutscenes
         // store scenes
         private StartScene startScene;
         private Scene1 scene1;
+        private Scene2 scene2;
 
         // store mainGame to allow for smooth transition from cutscene to game
         private MainGame mainGame; 
@@ -74,6 +76,16 @@ namespace PASS3.Classes.Screen.Cutscenes
                         Globals.GameState = MainGame.GAMESTATE;
                     }
                     break;
+                case Scene2.SCENESTATE:
+                    scene2.Update(gameTime);
+                    if (scene2.IsOver)
+                    {
+                        Globals.GameState = MainGame.GAMESTATE;
+                        Globals.LevelState = Level2.LEVEL;
+                    }
+
+                    break;
+
             }
         }
 
