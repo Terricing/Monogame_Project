@@ -35,8 +35,8 @@ namespace PASS3.Classes.Screen.Cutscenes
 
         public StartScene(ContentManager content)
         {
-            //bg = new Img(content.Load<Texture2D>(""));
-            //bg.LoadContent(0, 0);
+            bg = new Img(content.Load<Texture2D>("Screens/Cutscenes/StartScene/bg"));
+            bg.LoadContent(0, 0);
 
             // create name font
             nameFont = content.Load<SpriteFont>("Fonts/nameFont");
@@ -72,9 +72,14 @@ namespace PASS3.Classes.Screen.Cutscenes
                 }
             }
 
+            // on button press
             if (mouse.LeftButton == ButtonState.Pressed && continueButton.CheckCollision(mouse.Position))
             {
-                isOver = true;
+                if (name.Length > 0)
+                {
+                    isOver = true;
+                }
+
             }
             
 
@@ -84,7 +89,7 @@ namespace PASS3.Classes.Screen.Cutscenes
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            //bg.Draw(spriteBatch);
+            bg.Draw(spriteBatch);
             spriteBatch.DrawString(nameFont, name, new Vector2(Globals.GAME_WIDTH / 2 - nameFont.MeasureString(name).X / 2, Globals.GAME_HEIGHT / 2), Color.White);
             continueButton.Draw(spriteBatch);
             spriteBatch.End();

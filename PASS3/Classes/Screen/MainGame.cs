@@ -59,8 +59,11 @@ namespace PASS3
 
         }
 
-        public void LoadContent()
+        public void LoadContent(string name)
         {
+            // save name
+            playerName = name;
+
             lifeManager = new LifeManager(content);
             Globals.LevelState = Level1.LEVEL;
 

@@ -69,8 +69,6 @@ namespace PASS3
 
             gameOver = new GameOver(Content);
 
-            mainGame.LoadContent();
-
             // Create scoreboard and score keeper
             scores = new ScoreKeeper();
             scoreBoard = new ScoreBoard(Content, scores, GraphicsDevice);
@@ -78,7 +76,7 @@ namespace PASS3
             // set inital gameState
             Globals.GameState = Menu.GAMESTATE;
 
-            cutsceneManager = new CutsceneManager(Content);
+            cutsceneManager = new CutsceneManager(Content, mainGame);
             // TODO: use this.Content to load your game content here
         }
 
@@ -108,10 +106,10 @@ namespace PASS3
                 case Menu.GAMESTATE:
                     menu.Update(gameTime);
 
-                    if (Globals.GameState == MainGame.GAMESTATE)
-                    {
-                        mainGame.LoadContent();
-                    }
+                    //if (Globals.GameState == MainGame.GAMESTATE)
+                    //{
+                    //    mainGame.LoadContent();
+                    //}
                     break;
                 case MainGame.GAMESTATE:
                     mainGame.Update(gameTime);
@@ -123,7 +121,7 @@ namespace PASS3
                     scoreBoard.Update(gameTime);
                     break;
                 case CutsceneManager.GAMESTATE:
-                    cutsceneManager.Update();
+                    cutsceneManager.Update(gameTime);
                     break;
             }
 

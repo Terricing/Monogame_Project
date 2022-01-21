@@ -71,6 +71,7 @@
     <Compile Include="Classes\Levels\Level2.cs" />
     <Compile Include="Classes\LinkedList.cs" />
     <Compile Include="Classes\Screen\Cutscenes\CutsceneManager.cs" />
+    <Compile Include="Classes\Screen\Cutscenes\Scene1.cs" />
     <Compile Include="Classes\Screen\Cutscenes\StartScene.cs" />
     <Compile Include="Classes\Screen\GameOver.cs" />
     <Compile Include="Classes\Screen\ObstacleManager.cs" />

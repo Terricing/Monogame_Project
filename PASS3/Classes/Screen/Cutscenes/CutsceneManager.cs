@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -14,16 +15,21 @@ namespace PASS3.Classes.Screen.Cutscenes
         private int sceneState;
 
         private StartScene startScene;
+        private Scene1 scene1;
 
-        public CutsceneManager(ContentManager content)
+        MainGame mainGame; 
+
+        public CutsceneManager(ContentManager content, MainGame mainGame)
         {
+            this.mainGame = mainGame;
+
             startScene = new StartScene(content);
+            scene1 = new Scene1(content);
 
             sceneState = StartScene.SCENESTATE;
-
         }
 
-        public void Update ()
+        public void Update (GameTime gameTime)
         {
             switch (sceneState)
             {
@@ -32,6 +38,16 @@ namespace PASS3.Classes.Screen.Cutscenes
                     if (startScene.IsOver)
                     {
                         // switch state
+                        scene1.LoadContent();
+                        sceneState = Scene1.SCENESTATE;
+                    }
+                    break;
+                case Scene1.SCENESTATE:
+                    scene1.Update(gameTime);
+                    if (scene1.IsOver)
+                    {
+                        mainGame.LoadContent(GetName());
+                        Globals.GameState = MainGame.GAMESTATE;
                     }
                     break;
             }
@@ -43,7 +59,10 @@ namespace PASS3.Classes.Screen.Cutscenes
             {
                 case StartScene.SCENESTATE:
                     startScene.Draw(spriteBatch);
+                    break;
 
+                case Scene1.SCENESTATE:
+                    scene1.Draw(spriteBatch);
                     break;
             }
         }
