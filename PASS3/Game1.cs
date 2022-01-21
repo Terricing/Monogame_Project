@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Media;
 using Animation2D;
 using PASS3.Classes.Screen;
 using PASS3.Classes;
+using PASS3.Classes.Screen.Cutscenes;
 
 namespace PASS3
 {
@@ -28,6 +29,8 @@ namespace PASS3
         private GameOver gameOver;
         private ScoreBoard scoreBoard;
         private ScoreKeeper scores;
+
+        private CutsceneManager cutsceneManager;
 
         public Game1()
         {
@@ -75,6 +78,7 @@ namespace PASS3
             // set inital gameState
             Globals.GameState = Menu.GAMESTATE;
 
+            cutsceneManager = new CutsceneManager(Content);
             // TODO: use this.Content to load your game content here
         }
 
@@ -118,7 +122,9 @@ namespace PASS3
                 case ScoreBoard.GAMESTATE:
                     scoreBoard.Update(gameTime);
                     break;
-                    
+                case CutsceneManager.GAMESTATE:
+                    cutsceneManager.Update();
+                    break;
             }
 
             base.Update(gameTime);
@@ -146,6 +152,9 @@ namespace PASS3
                     break;
                 case ScoreBoard.GAMESTATE:
                     scoreBoard.Draw(spriteBatch);
+                    break;
+                case CutsceneManager.GAMESTATE:
+                    cutsceneManager.Draw(spriteBatch);
                     break;
             }
 

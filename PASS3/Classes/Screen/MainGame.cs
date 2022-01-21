@@ -43,9 +43,9 @@ namespace PASS3
         private Vector2 scorePos;
         private string scoreText;
 
-        private CutsceneManager cutSceneManager;
-
         private LifeManager lifeManager;
+
+        private string playerName;
 
         public MainGame(ContentManager content, GraphicsDevice gd)
         {
@@ -56,6 +56,7 @@ namespace PASS3
             scoreFont = content.Load<SpriteFont>("Fonts/ScoreFont");
             scorePos = new Vector2(0, 0);
             scoreText = "Score: ";
+
         }
 
         public void LoadContent()
@@ -89,9 +90,6 @@ namespace PASS3
                     }
 
                     level2.Update(gameTime, kb);
-                    break;
-                case CutsceneManager.LEVELSTATE:
-                    cutSceneManager.Update();
                     break;
             }
 
@@ -130,6 +128,11 @@ namespace PASS3
             lifeManager.Draw(spriteBatch);
             spriteBatch.DrawString(scoreFont, scoreText + score, scorePos, Color.Blue);
             spriteBatch.End();
+        }
+
+        public void PassName(string name)
+        {
+            playerName = name;
         }
 
         public static float BgScrollSpeed

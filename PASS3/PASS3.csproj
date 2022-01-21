@@ -101,6 +101,7 @@
     <Content Include="Icon.bmp" />
     <Content Include="Icon.ico" />
     <Content Include="libmojoshader_64.dll" />
+    <Content Include="Libraries\Helper.dll" />
     <Content Include="mgfxc.dll" />
     <Content Include="mgfxc.exe" />
     <Content Include="mgfxc.pdb" />

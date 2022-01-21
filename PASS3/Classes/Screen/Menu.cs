@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended;
 using Animation2D;
 using PASS3.Classes;
+using PASS3.Classes.Screen.Cutscenes;
 
 namespace PASS3
 {
@@ -111,7 +112,7 @@ namespace PASS3
             {
                 if (playBt.CheckCollision(mouse.Position))
                 {
-                    Globals.GameState = MainGame.GAMESTATE; 
+                    Globals.GameState = CutsceneManager.GAMESTATE; 
                 }
             }
 

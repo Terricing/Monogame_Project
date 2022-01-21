@@ -10,7 +10,7 @@ namespace PASS3.Classes.Screen.Cutscenes
 {
     class CutsceneManager
     {
-        public const int LEVELSTATE = 5;
+        public const int GAMESTATE = 5;
         private int sceneState;
 
         private StartScene startScene;
@@ -18,6 +18,8 @@ namespace PASS3.Classes.Screen.Cutscenes
         public CutsceneManager(ContentManager content)
         {
             startScene = new StartScene(content);
+
+            sceneState = StartScene.SCENESTATE;
 
         }
 
@@ -27,7 +29,10 @@ namespace PASS3.Classes.Screen.Cutscenes
             {
                 case StartScene.SCENESTATE:
                     startScene.Update();
-
+                    if (startScene.IsOver)
+                    {
+                        // switch state
+                    }
                     break;
             }
         }
@@ -43,11 +48,17 @@ namespace PASS3.Classes.Screen.Cutscenes
             }
         }
 
+        public string GetName()
+        {
+            return startScene.GetName();
+        }
+
         public int SceneState
         {
             get { return sceneState; }
             set { sceneState = value; }
         }
+
 
     }
 }
