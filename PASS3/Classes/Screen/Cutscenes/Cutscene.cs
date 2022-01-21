@@ -52,11 +52,12 @@ namespace PASS3
             rect = new Helper.GameRectangle(gd, primitiveRect);
         }
 
-        public void LoadContent()
+        public virtual void LoadContent()
         {
             iteration = 0;
             textIteration = 0;
             shownText = "";
+            isOver = false;
 
             isGoing = true;
         }
@@ -65,6 +66,12 @@ namespace PASS3
         {
             prevKb = kb;
             kb = Keyboard.GetState();
+
+            // skip cutscene
+            if (kb.IsKeyDown(Keys.Escape))
+            {
+                isOver = true;
+            }
 
             // animate text
             if (isGoing)

@@ -30,10 +30,12 @@ namespace PASS3
         private GameOver gameOver;
         private ScoreBoard scoreBoard;
 
+        // Create start scene
+        StartScene startScene;
+
         // Store score keeper
         private ScoreKeeper scores;
         // store cutscene manager
-        private CutsceneManager cutsceneManager;
 
         public Game1()
         {
@@ -75,6 +77,11 @@ namespace PASS3
             // Create game assets
             mainGame = new MainGame(Content, graphics.GraphicsDevice);
 
+            //// create cutscene manager
+            //cutsceneManager = new CutsceneManager(Content, mainGame, GraphicsDevice);
+
+            //mainGame.LoadCutsceneManager(cutsceneManager);
+
             // create game over screen
             gameOver = new GameOver(Content);
 
@@ -82,11 +89,11 @@ namespace PASS3
             scores = new ScoreKeeper();
             scoreBoard = new ScoreBoard(Content, scores, GraphicsDevice);
 
+            startScene = new StartScene(Content);
+
             // set inital gameState
             Globals.GameState = Menu.GAMESTATE;
 
-            // create cutscene manager
-            cutsceneManager = new CutsceneManager(Content, mainGame, GraphicsDevice);
         }
 
         /// <summary>
@@ -105,20 +112,23 @@ namespace PASS3
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TODO: Add your update logic here
 
             switch (Globals.GameState)
             {
                 case Menu.GAMESTATE:
                     menu.Update(gameTime);
 
-                    if (Globals.GameState == CutsceneManager.GAMESTATE)
+                    //if (Globals.GameState == CutsceneManager.GAMESTATE)
+                    //{
+                    //    cutsceneManager.LoadContent();
+                    //}
+
+                    if (Globals.GameState == StartScene.GAMESTATE)
                     {
-                        cutsceneManager.LoadContent() ;
+                        Console.WriteLine(true);
+                        startScene.LoadContent();
                     }
+
                     break;
                 case MainGame.GAMESTATE:
                     mainGame.Update(gameTime);
@@ -129,8 +139,14 @@ namespace PASS3
                 case ScoreBoard.GAMESTATE:
                     scoreBoard.Update(gameTime);
                     break;
-                case CutsceneManager.GAMESTATE:
-                    cutsceneManager.Update(gameTime);
+                case StartScene.GAMESTATE:
+                    startScene.Update();
+                    if (startScene.IsOver)
+                    {
+                        mainGame.LoadContent(startScene.GetName());
+                        Globals.GameState = MainGame.GAMESTATE;
+                    }
+
                     break;
             }
 
@@ -160,8 +176,8 @@ namespace PASS3
                 case ScoreBoard.GAMESTATE:
                     scoreBoard.Draw(spriteBatch);
                     break;
-                case CutsceneManager.GAMESTATE:
-                    cutsceneManager.Draw(spriteBatch);
+                case StartScene.GAMESTATE:
+                    startScene.Draw(spriteBatch);
                     break;
             }
 

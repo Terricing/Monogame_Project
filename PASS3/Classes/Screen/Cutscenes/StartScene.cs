@@ -12,7 +12,7 @@ namespace PASS3.Classes.Screen.Cutscenes
 {
     class StartScene
     {
-        public const int SCENESTATE = 1;
+        public const int GAMESTATE = 5;
 
         // store background
         private Img bg;

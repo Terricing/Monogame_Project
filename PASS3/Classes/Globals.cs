@@ -22,6 +22,8 @@ namespace PASS3.Classes
         // keep track of current level
         private static int levelState;
 
+        private static float bgScrollSpeed = 400f;
+
         // store lane positions
         private static int[] lanePos = new int[] { (int)(Globals.GAME_WIDTH / 4f), (int)(Globals.GAME_WIDTH / 2.35f), (int)(Globals.GAME_WIDTH / 1.6f) };
 
@@ -46,6 +48,11 @@ namespace PASS3.Classes
         public static int[] LanePos
         {
             get { return lanePos; }
+        }
+
+        public static float BgScrollSpeed
+        {
+            get { return bgScrollSpeed; }
         }
     }
 }

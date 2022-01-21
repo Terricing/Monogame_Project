@@ -33,6 +33,9 @@ namespace PASS3.Classes.Screen
         private int spawnChance;
         private int currentSpawnChance;
 
+        private bool isOver;
+        private Timer switchScene;
+
         public ObstacleManager(int numObs, Obstacle[] obs, int spawnChance, float spawnTime)
         {
             this.numObs = numObs;
@@ -45,30 +48,40 @@ namespace PASS3.Classes.Screen
             {
                 offScreenQueue.Enqueue(obs[Globals.Rand.Next(0, obs.Length)].Copy());
             }
+
+            switchScene = new Timer(2500, false);
+
+            isOver = false;
         }
 
         public void Update(GameTime gameTime, Player player)
         {
-            // update timer
-            spawnTimer.Update(gameTime.ElapsedGameTime.TotalMilliseconds);
+            switchScene.Update(gameTime.ElapsedGameTime.Milliseconds);
 
-            // Check if timer is complete
-            if (spawnTimer.IsFinished())
+            if (!isOver)
             {
-                // Algorithm to determine whether to spawn the next obstacle
-                currentSpawnChance -= Globals.Rand.Next(0, 2);
+                // update timer
+                spawnTimer.Update(gameTime.ElapsedGameTime.TotalMilliseconds);
 
-                if (currentSpawnChance <= 0)
+                // Check if timer is complete
+                if (spawnTimer.IsFinished())
                 {
-                    onScreenQueue.Enqueue(offScreenQueue.Dequeue());
+                    // Algorithm to determine whether to spawn the next obstacle
+                    currentSpawnChance -= Globals.Rand.Next(0, 2);
 
-                    // reset spawnChance
-                    currentSpawnChance = spawnChance;
+                    if (currentSpawnChance <= 0)
+                    {
+                        onScreenQueue.Enqueue(offScreenQueue.Dequeue());
+
+                        // reset spawnChance
+                        currentSpawnChance = spawnChance;
+                    }
+
+                    // reset timer
+                    spawnTimer.ResetTimer(true);
                 }
-
-                // reset timer
-                spawnTimer.ResetTimer(true);
             }
+
 
             // Update onscreen obstacles
             curNode = onScreenQueue.Head;
@@ -105,11 +118,27 @@ namespace PASS3.Classes.Screen
             }
         }
 
-        public bool IsLevelFinished ()
+        public bool IsLevelFinished()
         {
             if (offScreenQueue.Head == null)
             {
-                return true;
+                isOver = true;
+                // why is it only working on 1?
+                if (onScreenQueue.Count == 1)
+                {   
+                    if (!switchScene.IsActive())
+                    {
+                        switchScene.Activate();
+                    }
+
+                    if (switchScene.IsFinished())
+                    {
+                        return true;
+                    }
+                   
+                }
+                return false;
+                
             }
             else
             {

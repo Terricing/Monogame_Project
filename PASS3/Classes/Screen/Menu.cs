@@ -112,7 +112,7 @@ namespace PASS3
             {
                 if (playBt.CheckCollision(mouse.Position))
                 {
-                    Globals.GameState = CutsceneManager.GAMESTATE; 
+                    Globals.GameState = StartScene.GAMESTATE; 
                 }
             }
 

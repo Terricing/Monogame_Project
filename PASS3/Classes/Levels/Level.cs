@@ -24,6 +24,8 @@ namespace PASS3.Classes.Levels
         protected float[] bgPos = new float[2];
         protected float bgSpeed;
 
+        protected bool isOver;
+
         protected int levelState;
 
         // Store player object
@@ -85,7 +87,7 @@ namespace PASS3.Classes.Levels
                 }
             }
 
-            bgSpeed = -1 * MainGame.BgScrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            bgSpeed = -1 * Globals.BgScrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             bgPos[0] -= bgSpeed;
             bgPos[1] -= bgSpeed;
             bg[0].Y = (int)bgPos[0];
@@ -119,6 +121,12 @@ namespace PASS3.Classes.Levels
             }
 
             return true;
+        }
+
+        public bool IsLevelFinished
+        {
+            get { return isLevelFinished; }
+            set { isLevelFinished = value; }
         }
 
 

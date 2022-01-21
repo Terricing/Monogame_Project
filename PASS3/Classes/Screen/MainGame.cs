@@ -26,16 +26,23 @@ namespace PASS3
         // Store gamestate
         public const int GAMESTATE = 1;
 
-        // store scroll speed
-        private static float bgScrollSpeed = 400f;
+        private const int GAME = 0;
+        private const int SCENE = 1;
+
+        private int state;
+        private int sceneState;
 
         // Store interfaces
         private ContentManager content;
         private GraphicsDevice gd;
 
-        // Create level1 object
+        // store levels
         private Level1 level1;
         private Level2 level2;
+
+        // store scenes
+        Scene1 scene1;
+        Scene2 scene2;
 
         private int score;
         private Timer scoreTimer;
@@ -57,21 +64,31 @@ namespace PASS3
             scorePos = new Vector2(0, 0);
             scoreText = "Score: ";
 
+            // create scenes
+            scene1 = new Scene1(content, gd);
+            scene2 = new Scene2(content, gd);
+
         }
 
         public void LoadContent(string name)
         {
-            // save name
             playerName = name;
 
             lifeManager = new LifeManager(content);
             Globals.LevelState = Level1.LEVEL;
 
-            level1 = new Level1("Screens/Game/classroom_bg", content, lifeManager);
+            level1 = new Level1("Screens/Game/classroom_bg", content, lifeManager, gd);
             level1.LoadContent();
 
             level2 = new Level2("Screens/Game/Stage2/bg", content, lifeManager);
             level2.LoadContent();
+
+            // load scenes
+            scene1.LoadContent(name);
+            scene2.LoadContent();
+
+            state = SCENE;
+            sceneState = Scene1.SCENESTATE;
 
             score = 0;
         }
@@ -80,56 +97,118 @@ namespace PASS3
         KeyboardState kb;
         public void Update(GameTime gameTime)
         {
-            kb = Keyboard.GetState();
-            switch(Globals.LevelState)
+            switch (state)
             {
-                case Level1.LEVEL:
-                    level1.Update(gameTime, kb);
-                    break;
-                case Level2.LEVEL:
-                    if (level1.IsTransition())
+                case GAME:
+                    kb = Keyboard.GetState();
+                    switch (Globals.LevelState)
                     {
-                        level1.BgScroll(gameTime);
+                        case Level1.LEVEL:
+                            level1.Update(gameTime, kb);
+
+                            if (level1.IsLevelFinished)
+                            {
+                                state = SCENE;
+                                sceneState = Scene2.SCENESTATE;
+                            }
+
+                            break;
+                        case Level2.LEVEL:
+                            //if (level1.IsTransition())
+                            //{
+                            //    level1.BgScroll(gameTime);
+                            //    level1.IsLevelFinished = true;
+                            //}
+                            //else if (level1.IsLevelFinished)
+                            //{
+                            //    cutsceneManager.SceneState = Scene2.SCENESTATE;
+                            //    Globals.GameState = CutsceneManager.GAMESTATE;
+                            //}
+
+
+                            level2.Update(gameTime, kb);
+                            break;
                     }
 
-                    level2.Update(gameTime, kb);
+                    // Increase the score
+                    if (scoreTimer.IsFinished())
+                    {
+                        // Increase the score based on the level and amount of lives
+                        score += (lifeManager.Lives) * Globals.LevelState;
+                        // reset the score
+                        scoreTimer.ResetTimer(true);
+                    }
+
+                    lifeManager.Update(gameTime);
+                    levelState = Globals.LevelState;
+                    scoreTimer.Update(gameTime.ElapsedGameTime.TotalMilliseconds);
+                    break;
+                case SCENE:
+                    switch (sceneState)
+                    {
+                        case Scene1.SCENESTATE:
+                            scene1.Update(gameTime);
+                            if (scene1.IsOver)
+                            {
+                                state = GAME;
+                                Globals.LevelState = Level1.LEVEL;
+                            }
+
+                            break;
+                        case Scene2.SCENESTATE:
+                            scene2.Update(gameTime);
+                            if (scene2.IsOver)
+                            {
+                                state = GAME;
+                                Globals.LevelState = Level2.LEVEL;
+                            }
+                            break;
+                    }
                     break;
             }
-
-            // Increase the score
-            if(scoreTimer.IsFinished())
-            {
-                // Increase the score based on the level and amount of lives
-                score += (lifeManager.Lives) * Globals.LevelState;
-                // reset the score
-                scoreTimer.ResetTimer(true);
-            }
-
-            lifeManager.Update(gameTime);
-            levelState = Globals.LevelState;
-            scoreTimer.Update(gameTime.ElapsedGameTime.TotalMilliseconds);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            switch(Globals.LevelState)
+
+            switch (state)
             {
-                case Level1.LEVEL:
-                    level1.Draw(spriteBatch);
-                    break;
-                case Level2.LEVEL:
-                    if(level1.IsTransition())
+                case GAME:
+
+                    switch (Globals.LevelState)
                     {
-                        level1.BgDraw(spriteBatch);
+                        case Level1.LEVEL:
+                            level1.Draw(spriteBatch);
+                            break;
+                        case Level2.LEVEL:
+                            //if(level1.IsTransition())
+                            //{
+                            //    level1.BgDraw(spriteBatch);
+                            //}    
+                            level2.Draw(spriteBatch);
+                            break;
                     }
 
-                    level2.Draw(spriteBatch);
+                    lifeManager.Draw(spriteBatch);
+                    spriteBatch.DrawString(scoreFont, scoreText + score, scorePos, Color.Blue);
+
+                    break;
+                case SCENE:
+                    switch(sceneState)
+                    {
+                        case Scene1.SCENESTATE:
+                            scene1.Draw(spriteBatch);
+                            break;
+                        case Scene2.SCENESTATE:
+                            scene2.Draw(spriteBatch);
+                            break;
+                    }
+
                     break;
             }
 
-            lifeManager.Draw(spriteBatch);
-            spriteBatch.DrawString(scoreFont, scoreText + score, scorePos, Color.Blue);
+
             spriteBatch.End();
         }
 
@@ -138,10 +217,5 @@ namespace PASS3
             playerName = name;
         }
 
-        public static float BgScrollSpeed
-        {
-            get { return bgScrollSpeed; }
-            set { bgScrollSpeed = value; }
-        }
     }
 }

@@ -76,7 +76,6 @@
     <Compile Include="Classes\Screen\Cutscenes\StartScene.cs" />
     <Compile Include="Classes\Screen\GameOver.cs" />
     <Compile Include="Classes\Screen\ObstacleManager.cs" />
-    <Compile Include="Classes\Screen\GetName.cs" />
     <Compile Include="Classes\ScoreKeeper.cs" />
     <Compile Include="Classes\Screen\ScoreBoard.cs" />
     <Compile Include="Classes\Screen\Cutscenes\Cutscene.cs" />

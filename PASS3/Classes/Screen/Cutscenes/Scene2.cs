@@ -24,9 +24,7 @@ namespace PASS3.Classes.Screen.Cutscenes
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             base.Draw(spriteBatch);
-            spriteBatch.End();
         }
 
 

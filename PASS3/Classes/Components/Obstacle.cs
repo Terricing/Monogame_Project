@@ -41,7 +41,7 @@ namespace PASS3
         public void Update(GameTime gameTime)
         {
             // move obstacle
-            speed = (float)gameTime.ElapsedGameTime.TotalSeconds * MainGame.BgScrollSpeed;
+            speed = (float)gameTime.ElapsedGameTime.TotalSeconds * Globals.BgScrollSpeed;
             truePos += speed;
             obs.Y = (int)truePos;
         }

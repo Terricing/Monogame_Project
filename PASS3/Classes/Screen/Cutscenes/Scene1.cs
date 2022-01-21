@@ -12,22 +12,26 @@ namespace PASS3.Classes.Screen.Cutscenes
     class Scene1 : Cutscene
     {
         public const int SCENESTATE = 2;
+        private string playerName;
         
         public Scene1(ContentManager content, GraphicsDevice gd) : base(content, gd)
         {
             bg = new Img(content.Load<Texture2D>("Screens/Cutscenes/Scene1/bg"));
             bg.LoadContent(0, 0);
+        }
+
+        public void LoadContent(string name)
+        {
+            base.LoadContent();
 
             fullText = new string[2];
-            fullText[0] = " Hello, {name}, where is your PASS3?";
+            fullText[0] = $" Hello, {name}, where is your PASS3?";
             fullText[1] = " You will never get away with this!";
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             base.Draw(spriteBatch);
-            spriteBatch.End();
         }
     }
 }
