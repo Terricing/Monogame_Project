@@ -24,12 +24,15 @@ namespace PASS3
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
+        // Store different screens
         private Menu menu;
         private MainGame mainGame;
         private GameOver gameOver;
         private ScoreBoard scoreBoard;
-        private ScoreKeeper scores;
 
+        // Store score keeper
+        private ScoreKeeper scores;
+        // store cutscene manager
         private CutsceneManager cutsceneManager;
 
         public Game1()
@@ -46,8 +49,10 @@ namespace PASS3
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            // make mouse visible
             this.IsMouseVisible = true;
+            
+            // Change resolution
             this.graphics.PreferredBackBufferWidth = Globals.GAME_WIDTH;
             this.graphics.PreferredBackBufferHeight = Globals.GAME_HEIGHT;
             this.graphics.ApplyChanges();
@@ -61,12 +66,16 @@ namespace PASS3
         /// </summary>
         protected override void LoadContent()
         {
-            menu = new Menu(Content);
-            mainGame = new MainGame(Content, graphics.GraphicsDevice);
-
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // Create menu
+            menu = new Menu(Content);
+
+            // Create game assets
+            mainGame = new MainGame(Content, graphics.GraphicsDevice);
+
+            // create game over screen
             gameOver = new GameOver(Content);
 
             // Create scoreboard and score keeper
@@ -76,8 +85,8 @@ namespace PASS3
             // set inital gameState
             Globals.GameState = Menu.GAMESTATE;
 
+            // create cutscene manager
             cutsceneManager = new CutsceneManager(Content, mainGame, GraphicsDevice);
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -106,10 +115,10 @@ namespace PASS3
                 case Menu.GAMESTATE:
                     menu.Update(gameTime);
 
-                    //if (Globals.GameState == MainGame.GAMESTATE)
-                    //{
-                    //    mainGame.LoadContent();
-                    //}
+                    if (Globals.GameState == CutsceneManager.GAMESTATE)
+                    {
+                        cutsceneManager.LoadContent() ;
+                    }
                     break;
                 case MainGame.GAMESTATE:
                     mainGame.Update(gameTime);

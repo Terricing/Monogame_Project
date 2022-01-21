@@ -110,7 +110,7 @@ namespace PASS3
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            //bg.Draw(spriteBatch);
+            bg.Draw(spriteBatch);
             rect.Draw(spriteBatch, Color.ForestGreen, true);
             spriteBatch.DrawString(textFont, shownText, new Vector2(rect.Left + rect.Width / 50, rect.Top + rect.Height / 30), Color.White);
         }
