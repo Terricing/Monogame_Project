@@ -1,4 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿// Author: Eilay Katsnelson
+// File Name: Cutscene.cs
+// Project Name: PASS3
+// Creation Date: January 6, 2022
+// Modified Date: January 21, 2022
+// Description: A parent class for creating cutscenes
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -44,14 +51,25 @@ namespace PASS3
         private Rectangle primitiveRect;
         private Helper.GameRectangle rect;
         
+        /// <summary>
+        /// Create cutscene
+        /// </summary>
+        /// <param name="content">load content</param>
+        /// <param name="gd"></param>
         public Cutscene(ContentManager content, GraphicsDevice gd)
         {
+            // Load textfont for displayed text
             textFont = content.Load<SpriteFont>("Fonts/cutsceneText");
+
+            // Create rectangle to display text
             primitiveRect = new Rectangle(0, (int)(Globals.GAME_HEIGHT / 1.3), (int)(Globals.GAME_WIDTH / 1.3), (int)(Globals.GAME_HEIGHT / 6));
             primitiveRect.X = Globals.GAME_WIDTH / 2 - primitiveRect.Width / 2;
             rect = new Helper.GameRectangle(gd, primitiveRect);
         }
 
+        /// <summary>
+        /// Reset values
+        /// </summary>
         public virtual void LoadContent()
         {
             iteration = 0;
@@ -62,12 +80,18 @@ namespace PASS3
             isGoing = true;
         }
 
+        /// <summary>
+        /// Update cutscene
+        /// </summary>
+        /// <param name="gameTime">time between updates</param>
         public virtual void Update(GameTime gameTime)
         {
+            // save previous keyboard state
             prevKb = kb;
+            // current keyboard state
             kb = Keyboard.GetState();
 
-            // skip cutscene
+            // skip cutscene if player presses escape
             if (kb.IsKeyDown(Keys.Escape))
             {
                 isOver = true;
@@ -76,31 +100,34 @@ namespace PASS3
             // animate text
             if (isGoing)
             {
+                // Make new letters appear based on time
                 if (timeIncrement > 20)
                 {
+                    // Load letter by letter
                     if (iteration < fullText[textIteration].Length - 1)
                     {
-                        //if ((rect.Left + rect.Width / 50) + textFont.MeasureString(shownText).X > (rect.Right - rect.Width / 50))
-                        //{
-                        //    shownText += "\n";
-                        //}
-
                         iteration++;
                         shownText += fullText[textIteration][iteration];
                     }
                     else
                     {
+                        // if the end is reached, stop animating
                         isGoing = false;
                     }
+
+                    // reset time
                     timeIncrement = 0;
                 }
 
+                // increase timer
                 timeIncrement += gameTime.ElapsedGameTime.Milliseconds;
             }
             else
             {
+                // When text stops, wait for user input (enter key)
                 if (kb.IsKeyDown(Keys.Enter) && !prevKb.IsKeyDown(Keys.Enter))
                 {
+                    // there is more text to display, ditsplay it
                     if (textIteration < fullText.Length-1)
                     {
                         textIteration++;
@@ -111,20 +138,31 @@ namespace PASS3
                     }
                     else
                     {
+                        // if there is no more text, start level
                         isOver = true;
                     }
                 }
             }
-
         }
 
+        /// <summary>
+        /// Draw cutscene
+        /// </summary>
+        /// <param name="spriteBatch">controls screen's canvas</param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            // draw background art
             bg.Draw(spriteBatch);
+
+            // Draw recangle
             rect.Draw(spriteBatch, Color.ForestGreen, true);
+            // Draw text on rectangle
             spriteBatch.DrawString(textFont, shownText, new Vector2(rect.Left + rect.Width / 50, rect.Top + rect.Height / 30), Color.White);
         }
 
+        /// <summary>
+        /// Accessor for whether the scene is over
+        /// </summary>
         public bool IsOver
         {
             get { return isOver; }
