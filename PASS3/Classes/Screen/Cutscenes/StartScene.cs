@@ -1,4 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿// Author: Eilay Katsnelson
+// File Name: StartScene.cs
+// Project Name: PASS3
+// Creation Date: January 6, 2022
+// Modified Date: January 21, 2022
+// Description: A scene meant to collect the player's name
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,6 +19,7 @@ namespace PASS3.Classes.Screen.Cutscenes
 {
     class StartScene
     {
+        // create gamestate
         public const int GAMESTATE = 5;
 
         // store background
@@ -39,6 +47,10 @@ namespace PASS3.Classes.Screen.Cutscenes
         // store state
         private bool isOver;
 
+        /// <summary>
+        /// create scene
+        /// </summary>
+        /// <param name="content">load content</param>
         public StartScene(ContentManager content)
         {
             // Create and load background
@@ -116,7 +128,7 @@ namespace PASS3.Classes.Screen.Cutscenes
         /// <summary>
         /// Draw start scene's assets
         /// </summary>
-        /// <param name="spriteBatch"></param>
+        /// <param name="spriteBatch">control screen's canvas</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -129,16 +141,13 @@ namespace PASS3.Classes.Screen.Cutscenes
 
             // draw continue button
             continueButton.Draw(spriteBatch);
+
             spriteBatch.End();
         }
 
-        // property for name
-        public string GetName()
-        {
-            return name;
-        }
-
-        // property is isOver bool
+        /// <summary>
+        /// Accessor for whether the level is over
+        /// </summary>
         public bool IsOver
         {
             get { return isOver; }

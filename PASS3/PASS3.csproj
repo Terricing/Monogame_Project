@@ -77,7 +77,6 @@
     <Compile Include="Classes\Levels\Level3.cs" />
     <Compile Include="Classes\Levels\Level4.cs" />
     <Compile Include="Classes\LinkedList.cs" />
-    <Compile Include="Classes\Screen\Cutscenes\CutsceneManager.cs" />
     <Compile Include="Classes\Screen\Cutscenes\Scene1.cs" />
     <Compile Include="Classes\Screen\Cutscenes\Scene2.cs" />
     <Compile Include="Classes\Screen\Cutscenes\Scene3.cs" />
