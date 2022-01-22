@@ -1,4 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿// Author: Eilay Katsnelson
+// File Name: Hand.cs
+// Project Name: PASS3
+// Creation Date: January 6, 2022
+// Modified Date: January 21, 2022
+// Description: A parent class for boss's hands
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,20 +18,24 @@ namespace PASS3.Classes.Components.Boss
 {
     class Hand
     {
-        // Left hand and attack
+        // Store hand's image
         protected Img hand;
+
+        // store time movement should take, and current time in translation
+        protected float moveTime;
         protected float handTimer;
+
+        // store location related info
         protected float startPos;
         protected float endPos;
         protected float handPos;
-        protected float moveTime;
 
-        protected bool isAppearing;
+        // Store whether hand is currently on screen
         protected bool isShown;
-        protected bool isDisappearing;
 
         protected Hand()
         {
+            // inital values
             endPos = 0f;
             moveTime = 2f;
         }
@@ -35,12 +46,14 @@ namespace PASS3.Classes.Components.Boss
             handTimer = 0;
             handPos = startPos;
 
-            // set inital states
-            isAppearing = true;
+            // set inital state
             isShown = false;
-            isDisappearing = false;
         }
 
+        /// <summary>
+        /// Draw boss's hand
+        /// </summary>
+        /// <param name="spriteBatch">controls screen's canvas</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             hand.Draw(spriteBatch);
@@ -52,6 +65,7 @@ namespace PASS3.Classes.Components.Boss
         /// <param name="gameTime">Keep track of time passing</param>
         public void Appear(GameTime gameTime)
         {
+            // Make hand move to required area based on time
             if (handTimer < moveTime)
             {
                 handPos = MathHelper.Lerp(startPos, endPos, handTimer / moveTime);
@@ -59,13 +73,13 @@ namespace PASS3.Classes.Components.Boss
             }
             else
             {
-                // when finished translation, set values accordingly
+                // when finished translation, set values accordingly (because lerp function can be imperfect)
                 handPos = endPos;
-                isAppearing = false;
                 isShown = true;
                 handTimer = 0;
             }
 
+            // change hand's location
             hand.X = (int)handPos;
         }
 
@@ -75,6 +89,7 @@ namespace PASS3.Classes.Components.Boss
         /// <param name="gameTime">Keep track of time passing</param>
         public void Disappear(GameTime gameTime)
         {
+            // Make hand moved to required area based on time
             if (handTimer < moveTime)
             {
                 handPos = MathHelper.Lerp(endPos, startPos, handTimer / moveTime);
@@ -84,24 +99,17 @@ namespace PASS3.Classes.Components.Boss
             {
                 // when finished translation, set values accordingly
                 handPos = startPos;
-                isAppearing = false;
                 isShown = false;
                 handTimer = 0;
             }
 
+            // change hand's location
             hand.X = (int)handPos;
         }
-
-        public bool IsAppearing
-        {
-            get { return isAppearing; }
-        }
-
-        public bool IsDissappearing
-        {
-            get { return isDisappearing; }
-        }
-
+        
+        /// <summary>
+        /// Accesor for whether hand is onscreen
+        /// </summary>
         public bool IsShown
         {
             get { return isShown; }

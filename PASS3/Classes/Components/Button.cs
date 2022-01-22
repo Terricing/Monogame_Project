@@ -41,12 +41,12 @@ namespace PASS3
         /// <summary>
         /// Button constructor
         /// </summary>
-        /// <param name="content"></param>
-        /// <param name="btPath"></param>
-        /// <param name="selectedBtPath"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="scale"></param>
+        /// <param name="content">load content</param>
+        /// <param name="btPath">path to picture's location</param>
+        /// <param name="selectedBtPath">path to highlighted button's picture location</param>
+        /// <param name="x">x-location</param>
+        /// <param name="y">y-location</param>
+        /// <param name="scale">scale relative to original size</param>
         public Button(ContentManager content, string btPath, string selectedBtPath, int x, int y, float scale = 1f)
         {
             // Load the buttons and create rectangles
@@ -59,7 +59,7 @@ namespace PASS3
         /// <summary>
         /// Draw button
         /// </summary>
-        /// <param name="spriteBatch"></param>
+        /// <param name="spriteBatch">control screen's canvas</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             // if button is not selected
@@ -86,7 +86,7 @@ namespace PASS3
         /// <summary>
         /// Update button
         /// </summary>
-        /// <param name="mouseState"></param>
+        /// <param name="mouseState">keep track of whether mouse is pressed</param>
         public void Update(MouseState mouseState)
         {
             // Change button state depending on whether it is hovered on
@@ -104,7 +104,7 @@ namespace PASS3
         /// Check whether a mouse point collides with the button
         /// </summary>
         /// <param name="mousePos">represents mouse's location</param>
-        /// <returns></returns>
+        /// <returns>true or false on whether collision occured</returns>
         public bool CheckCollision(Point mousePos)
         {
             // return the result of the collision check

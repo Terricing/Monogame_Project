@@ -46,14 +46,24 @@ namespace PASS3.Classes.Components.Boss
         private float centerAttackTimer;
         private bool centerAttack;
         private bool showCenterAttack;
+
+        /// <summary>
+        /// Create object for attack manager
+        /// </summary>
+        /// <param name="content">allows for loading content</param>
+        /// <param name="leftHand">boss's left hand</param>
+        /// <param name="rightHand"><boss's right hand/param>
+        /// <param name="head">boss's head</param>
+        /// <param name="player">the player</param>
         public AttackManager(ContentManager content, LeftHand leftHand, RightHand rightHand, Head head, Player player)
         {
+            // Assign values
             this.leftHand = leftHand;
             this.rightHand = rightHand;
             this.head = head;
-
             this.player = player;
 
+            // Create attack images and rectangles
             leftLaser = new Img(content.Load<Texture2D>("Screens/Game/Stage3/left-laser"));
             leftLaser.LoadContent(0, 0);
             rightLaser = new Img(content.Load<Texture2D>("Screens/Game/Stage3/right-laser"));
@@ -62,9 +72,13 @@ namespace PASS3.Classes.Components.Boss
             centerLaser.LoadContent(0, 0);
         }
 
+        /// <summary>
+        /// Update attack manager to coordinate attacks
+        /// </summary>
+        /// <param name="gameTime">track time between updates</param>
         public void Update(GameTime gameTime)
         {
-            // when per
+            // Perform attack when supposed to
             if (leftAttack)
             {
                 LeftAttack(gameTime);
@@ -81,9 +95,12 @@ namespace PASS3.Classes.Components.Boss
             }
         }
 
+        /// <summary>
+        /// Start the process of a left attack
+        /// </summary>
         public void DoLeftAttack()
         {
-            //if left attack is not already happening, do left attack
+            // if left attack is not already happening, do left attack
             if (!leftAttack)
             {
                 leftAttack = true;
@@ -92,6 +109,9 @@ namespace PASS3.Classes.Components.Boss
             
         }
 
+        /// <summary>
+        /// Start the process of a right attack
+        /// </summary>
         public void DoRightAttack()
         {
             //if right attack is not already happening, do right attack
@@ -102,6 +122,9 @@ namespace PASS3.Classes.Components.Boss
             }
         }
 
+        /// <summary>
+        /// Start the process of a center attack
+        /// </summary>
         public void DoCenterAttack()
         {
            // if center is not happening, do center attack
@@ -115,9 +138,10 @@ namespace PASS3.Classes.Components.Boss
         /// <summary>
         /// Perform attack on the left side
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">time between updates</param>
         private void LeftAttack(GameTime gameTime)
         {
+            // If left hand is not already on screen, make it appear
             if (!leftHand.IsShown)
             {
                 leftHand.Appear(gameTime);
@@ -136,25 +160,29 @@ namespace PASS3.Classes.Components.Boss
                         // if player is in left lane when attack happens, lose a life
                         player.LoseLife();
                     }
-
                 }
                 else
                 {
                     // if attack is over, do not show it anymore
                     showLeftAttack = false;
                     leftHand.Disappear(gameTime);
+
                     // if hand dissappears, stop attack so it can it be done again
                     if (!leftHand.IsShown)
                     {
                         leftAttack = false;
                     }
                 }
-                
             }
         }
 
+        /// <summary>
+        /// Perform attack on right lane
+        /// </summary>
+        /// <param name="gameTime">Time between updates</param>
         private void RightAttack(GameTime gameTime)
         {
+            // if right hand is not on screen, make it appear
             if (!rightHand.IsShown)
             {
                 rightHand.Appear(gameTime);
@@ -168,6 +196,7 @@ namespace PASS3.Classes.Components.Boss
                     rightAttackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                     showRightAttack = true;
 
+                    // if player is in the attack's lane, lose a life
                     if (player.Lane == 2)
                     {
                         player.LoseLife();
@@ -178,6 +207,7 @@ namespace PASS3.Classes.Components.Boss
                     // if attack is over, do not show it anymore
                     showRightAttack = false;
                     rightHand.Disappear(gameTime);
+
                     // if hand dissappears, stop attack so it can it be done again
                     if (!rightHand.IsShown)
                     {
@@ -188,8 +218,13 @@ namespace PASS3.Classes.Components.Boss
             }
         }
 
+        /// <summary>
+        /// Perform attack on center lane
+        /// </summary>
+        /// <param name="gameTime">time between updates</param>
         private void CenterAttack(GameTime gameTime)
         {
+            // if head is not yet shown, make it appear
             if (!head.IsShown)
             {
                 head.Appear(gameTime);
@@ -203,6 +238,7 @@ namespace PASS3.Classes.Components.Boss
                     centerAttackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                     showCenterAttack = true;
 
+                    // if player is in attack's lane, lose life
                     if (player.Lane == 1)
                     {
                         player.LoseLife();
@@ -214,20 +250,25 @@ namespace PASS3.Classes.Components.Boss
                     // if attack is over, do not show it anymore
                     showCenterAttack = false;
                     head.Disappear(gameTime);
+
                     // if head dissappears, stop attack so it can it be done again
                     if (!head.IsShown)
                     {
                         centerAttack = false;
                     }
                 }
-
             }
         }
 
+        /// <summary>
+        /// Perform a random attack
+        /// </summary>
         public void RandomAttack()
         {
+            // generate random number that represents one of the attacks
             int randNum = Globals.Rand.Next(1, 4);
 
+            // Perform attack depending on the generated number
             if (randNum == 1)
             {
                 DoLeftAttack();
@@ -240,11 +281,15 @@ namespace PASS3.Classes.Components.Boss
             {
                 DoCenterAttack();
             }
-
         }
 
+        /// <summary>
+        /// Draw boss's attacks
+        /// </summary>
+        /// <param name="spriteBatch">represents screen's canvas</param>
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Draw boss's attacks
             if (showLeftAttack)
             {
                 leftLaser.Draw(spriteBatch);
@@ -258,9 +303,7 @@ namespace PASS3.Classes.Components.Boss
             if (showCenterAttack)
             {
                 centerLaser.Draw(spriteBatch);
-            }
-            
+            }   
         }
-
     }
 }
