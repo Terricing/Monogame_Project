@@ -36,7 +36,9 @@ namespace PASS3.Classes.Screen
         private bool isOver;
         private Timer switchScene;
 
-        public ObstacleManager(int numObs, Obstacle[] obs, int spawnChance, float spawnTime)
+        private bool isUnlimited;
+
+        public ObstacleManager(int numObs, Obstacle[] obs, int spawnChance, float spawnTime, bool isUnlimited = false)
         {
             this.numObs = numObs;
             this.spawnChance = spawnChance;
@@ -52,6 +54,8 @@ namespace PASS3.Classes.Screen
             switchScene = new Timer(2500, false);
 
             isOver = false;
+
+            this.isUnlimited = isUnlimited;
         }
 
         public void Update(GameTime gameTime, Player player)
@@ -122,27 +126,49 @@ namespace PASS3.Classes.Screen
         {
             if (offScreenQueue.Head == null)
             {
-                isOver = true;
-                // why is it only working on 1?
-                if (onScreenQueue.Count == 1)
-                {   
-                    if (!switchScene.IsActive())
+                if (!isUnlimited)
+                {
+                    isOver = true;
+                    
+                    // why is it only working on 1?
+                    if (onScreenQueue.Count == 1)
                     {
-                        switchScene.Activate();
+                        if (!switchScene.IsActive())
+                        {
+                            switchScene.Activate();
+                        }
+
+                        if (switchScene.IsFinished())
+                        {
+                            return true;
+                        }
+
                     }
 
-                    if (switchScene.IsFinished())
-                    {
-                        return true;
-                    }
-                   
                 }
+                else
+                {
+                    return true;
+                }
+
                 return false;
                 
             }
             else
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Creates more obstacles when user beats them all
+        /// </summary>
+        public void CreateObstacles(Obstacle[] obs)
+        {
+            // Create a random queue of obstacles based on the level's obstacles 
+            for (int i = 0; i < 10; i++)
+            {
+                offScreenQueue.Enqueue(obs[Globals.Rand.Next(0, obs.Length)].Copy());
             }
         }
     }

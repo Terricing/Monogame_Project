@@ -40,11 +40,13 @@ namespace PASS3
         private Level1 level1;
         private Level2 level2;
         private Level3 level3;
+        private Level4 level4;
 
         // store scenes
         Scene1 scene1;
         Scene2 scene2;
         Scene3 scene3;
+        Scene4 scene4;
 
         private int score;
         private Timer scoreTimer;
@@ -70,6 +72,7 @@ namespace PASS3
             scene1 = new Scene1(content, gd);
             scene2 = new Scene2(content, gd);
             scene3 = new Scene3(content, gd);
+            scene4 = new Scene4(content, gd);
 
         }
 
@@ -89,16 +92,23 @@ namespace PASS3
             level3 = new Level3(content, lifeManager);
             level3.LoadContent();
 
+            level4 = new Level4(content, lifeManager);
+            level4.LoadContent();
+
             // load scenes
             scene1.LoadContent(name);
             scene2.LoadContent();
             scene3.LoadContent();
+            scene4.LoadContent();
 
-            //state = SCENE;
-            //sceneState = Scene1.SCENESTATE;
+            state = SCENE;
+            sceneState = Scene1.SCENESTATE;
 
-            state = GAME;
-            Globals.LevelState = Level3.LEVEL;
+            //state = GAME;
+            //Globals.LevelState = Level3.LEVEL;
+
+            //state = GAME;
+            //Globals.LevelState = Level4.LEVEL;
 
             score = 0;
         }
@@ -130,11 +140,20 @@ namespace PASS3
                                 sceneState = Scene3.SCENESTATE;
                             }
 
-
                             level2.Update(gameTime, kb);
                             break;
                         case Level3.LEVEL:
+                            if (level3.IsOver)
+                            {
+                                state = SCENE;
+                                sceneState = Scene4.SCENESTATE;
+                            }
+
                             level3.Update(gameTime, kb);
+                            break;
+                        case Level4.LEVEL:
+                            level4.Update(gameTime, kb);
+
                             break;
                     }
 
@@ -170,6 +189,7 @@ namespace PASS3
                                 state = GAME;
                                 Globals.LevelState = Level2.LEVEL;
                             }
+
                             break;
                         case Scene3.SCENESTATE:
                             scene3.Update(gameTime);
@@ -180,8 +200,19 @@ namespace PASS3
                             }
 
                             break;
+                        case Scene4.SCENESTATE:
+                            scene4.Update(gameTime);
+                            if (scene4.IsOver)
+                            {
+                                state = GAME;
+                                Globals.LevelState = Level4.LEVEL;
+                            }
+
+
+                            break;
                     }
                     break;
+
             }
         }
 
@@ -192,7 +223,6 @@ namespace PASS3
             switch (state)
             {
                 case GAME:
-
                     switch (Globals.LevelState)
                     {
                         case Level1.LEVEL:
@@ -207,6 +237,9 @@ namespace PASS3
                             break;
                         case Level3.LEVEL:
                             level3.Draw(spriteBatch);
+                            break;
+                        case Level4.LEVEL:
+                            level4.Draw(spriteBatch);
                             break;
                     }
 
@@ -225,6 +258,9 @@ namespace PASS3
                             break;
                         case Scene3.SCENESTATE:
                             scene3.Draw(spriteBatch);
+                            break;
+                        case Scene4.SCENESTATE:
+                            scene4.Draw(spriteBatch);
                             break;
                     }
 

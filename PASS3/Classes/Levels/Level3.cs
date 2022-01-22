@@ -92,7 +92,7 @@ namespace PASS3.Classes.Levels
                 }
                 else if (numAttacks == 8)
                 {
-                    attackTimeInterval = 3f;
+                    attackTimeInterval = 3.3f;
                 }
 
                 if (numAttacks == 15)

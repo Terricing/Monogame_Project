@@ -30,14 +30,10 @@ namespace PASS3.Classes.Levels
         public Level1(string bgPath, ContentManager content, LifeManager lifeManager, GraphicsDevice gd) : base(bgPath, content, lifeManager)
         {
             // Create level's obstacle manager
-            obstacles[0] = new Obstacle();
-            obstacles[0].LoadContent(content, "Screens/Game/GarbageObstacle", 0.15f);
-            obstacles[1] = new Obstacle();
-            obstacles[1].LoadContent(content, "Screens/Game/BackpackObstacle", 0.3f);
-            obstacles[2] = new Obstacle();
-            obstacles[2].LoadContent(content, "Screens/Game/BananaObs", 0.3f);
-            obstacles[3] = new Obstacle();
-            obstacles[3].LoadContent(content, "Screens/Game/waterObs", 0.3f);
+            obstacles[0] = new Obstacle(content, "Screens/Game/GarbageObstacle", 0.15f);
+            obstacles[1] = new Obstacle(content, "Screens/Game/BackpackObstacle", 0.3f);
+            obstacles[2] = new Obstacle(content, "Screens/Game/BananaObs", 0.3f);
+            obstacles[3] = new Obstacle(content, "Screens/Game/waterObs", 0.3f);
         }
 
         public override void LoadContent()

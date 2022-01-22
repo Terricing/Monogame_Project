@@ -14,7 +14,7 @@ namespace PASS3.Classes.Screen.Cutscenes
 
         public Scene3(ContentManager content, GraphicsDevice gd) : base(content, gd)
         {
-            bg = new Img(content.Load<Texture2D>("Screens/Cutscenes/Scene1/bg"));
+            bg = new Img(content.Load<Texture2D>("Screens/Cutscenes/Scene3/bg"));
             bg.LoadContent(0, 0);
 
             fullText = new string[2];

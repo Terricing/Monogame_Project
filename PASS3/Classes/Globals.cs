@@ -25,7 +25,7 @@ namespace PASS3.Classes
         private static float bgScrollSpeed = 400f;
 
         // store lane positions
-        private static int[] lanePos = new int[] { (int)(Globals.GAME_WIDTH / 4f), (int)(Globals.GAME_WIDTH / 2.35f), (int)(Globals.GAME_WIDTH / 1.6f) };
+        private static int[] lanePos = new int[] { (int)(Globals.GAME_WIDTH / 3.3f), (int)(Globals.GAME_WIDTH / 2f), (int)(Globals.GAME_WIDTH / 1.45f) };
 
         // Get random object
         public static Random Rand

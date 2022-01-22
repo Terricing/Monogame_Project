@@ -25,9 +25,7 @@ namespace PASS3
         private float speed;
         private float scale;
 
-        public Obstacle () { }
-
-        public void LoadContent(ContentManager content, string path, float scale = 1f)
+        public Obstacle (ContentManager content, string path, float scale = 1f)
         {
             obs = new Img(content.Load<Texture2D>(path));
             obs.LoadContent(0, -obs.ImgRect.Height, scale);
@@ -36,7 +34,15 @@ namespace PASS3
 
             // store for copy
             this.scale = scale;
+
         }
+
+        // override used for making copies
+        private Obstacle()
+        {
+
+        }
+
 
         public void Update(GameTime gameTime)
         {
@@ -69,6 +75,7 @@ namespace PASS3
             temp.Image = new Img(obs.Image);
             //temp.Image.LoadContent(obs.Image, MainGame.LanePos[Game1.Rand.Next(0, MainGame.LanePos.Length)], -obs.ImgRect.Height, scale);
             temp.Image.LoadContent(Globals.LanePos[Globals.Rand.Next(0, Globals.LanePos.Length)], 0, scale);
+            temp.Image.X -= temp.Image.ImgRect.Width / 2;
             temp.truePos = -obs.ImgRect.Height;
             return temp;
         }

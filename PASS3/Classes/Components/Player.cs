@@ -25,13 +25,12 @@ namespace PASS3
         private int lane;
 
         // control moving lane to lane
-        private float maxSpeed = 900f;
+        private float maxSpeed = 1500f;
         private float playerSpeed;
         private int dir;
         private float actualPos;
 
         private int curLanePos;
-        private int[] turnScreen;
 
         private bool drawCharacter;
         private bool isHit;
@@ -51,7 +50,8 @@ namespace PASS3
 
         public void LoadContent(ContentManager content)
         {
-            player = new Animation(content.Load<Texture2D>("Screens/Game/running_player"), 2, 1, 2, 0, Animation.NO_IDLE, Animation.ANIMATE_FOREVER, 6, new Vector2(Globals.LanePos[1]), 1, true);
+            player = new Animation(content.Load<Texture2D>("Screens/Game/running_player"), 2, 1, 2, 0, Animation.NO_IDLE, Animation.ANIMATE_FOREVER, 6, new Vector2(Globals.LanePos[1]), 0.6f, true);
+            player.destRec.X -= player.destRec.Width / 2;
             actualPos = player.destRec.X;
         }
 
@@ -64,18 +64,18 @@ namespace PASS3
             if (kb.IsKeyDown(Keys.Left) && !prevKb.IsKeyDown(Keys.Left) && lane != 0 && dir == 0)
             {
                 lane--;
-                curLanePos = Globals.LanePos[lane];
+                curLanePos = Globals.LanePos[lane] - player.destRec.Width / 2;
                 dir = -1;
             }
             else if (kb.IsKeyDown(Keys.Right) && !prevKb.IsKeyDown(Keys.Right) && lane != 2 && dir == 0)
             {
                 lane++;
-                curLanePos = Globals.LanePos[lane];
+                curLanePos = Globals.LanePos[lane] - player.destRec.Width / 2;
                 dir = 1;
             }
 
             // stop player when he reaches lane
-            if (Math.Abs(player.destRec.X - curLanePos) < 10 && dir != 0)
+            if (Math.Abs(actualPos - curLanePos) < 10 && dir != 0)
             {
                 dir = 0;
             }

@@ -12,32 +12,34 @@ using System.Threading.Tasks;
 
 namespace PASS3.Classes.Levels
 {
-    class Level2 : Level
+    class Level4 : Level
     {
-        public const int LEVEL = 2;
+        public const int LEVEL = 5;
 
-        private Obstacle[] obstacles = new Obstacle[2];
+        private Obstacle[] obstacles = new Obstacle[3];
         private ObstacleManager obsMan;
 
-        public Level2(String bgPath, ContentManager content, LifeManager lifeManager) : base (bgPath, content, lifeManager)
+        public Level4(ContentManager content, LifeManager lifeManager) : base("Screens/Game/Stage4/bg", content, lifeManager)
         {
-            obstacles[0] = new Obstacle(content, "Screens/Game/Stage2/coneObs", 0.5f);
-            obstacles[1] = new Obstacle(content, "Screens/Game/Stage2/poleObs", 0.7f);
+            obstacles[0] = new Obstacle(content, "Screens/Game/Stage4/boulder", 0.5f);
+            obstacles[1] = new Obstacle(content, "Screens/Game/Stage4/fire", 0.5f);
+            obstacles[2] = new Obstacle(content, "Screens/Game/Stage4/rock", 0.5f);
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
-            //obsMan = new ObstacleManager(20, obstacles, 3, 300);
-            obsMan = new ObstacleManager(3, obstacles, 3, 300);
+            obsMan = new ObstacleManager(10, obstacles, 2, 500, true);
         }
 
         public override void Update(GameTime gameTime, KeyboardState kb)
         {
             base.Update(gameTime, kb);
+
+            // if all obstacles are beat
             if (obsMan.IsLevelFinished())
             {
-                isLevelFinished = true;
+                obsMan.CreateObstacles(obstacles);
             }
             obsMan.Update(gameTime, player);
         }
