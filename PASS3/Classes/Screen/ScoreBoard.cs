@@ -167,8 +167,9 @@ namespace PASS3.Classes.Screen
                     if (buttonState != NAME)
                     {
                         search = "";
+                        buttonState = NAME;
                     }
-                    buttonState = NAME;
+
                 }
                 else if (scoreBtn.BtRect.Contains(mouseState.Position))
                 {
@@ -182,8 +183,8 @@ namespace PASS3.Classes.Screen
                     if (buttonState != SCORE)
                     {
                         search = "";
+                        buttonState = SCORE;
                     }
-                    buttonState = SCORE;
                 }
                 else if (searchBtn.BtRect.Contains(mouseState.Position))
                 {

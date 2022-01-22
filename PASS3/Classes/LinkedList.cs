@@ -1,5 +1,11 @@
-﻿// create a circularly linked list where the head and the tail link together
+﻿// Author: Eilay Katsnelson
+// File Name: LinkedList.cs
+// Project Name: PASS3
+// Creation Date: January 6, 2022
+// Modified Date: January 21, 2022
+// Description: A circularly linked list where the head and the tail are linked togehter
 // This allows adding new items at an O(1) time complexity. It can be used as a queue or a stack
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +23,18 @@ namespace PASS3.Classes
         // Store count of list
         int count;
 
-        // Create empty LinkedList
+        /// <summary>
+        /// Create empty LinkedList
+        /// </summary>
         public LinkedList()
         {
             count = 0;
         }
 
-        // Add new items to the end of queue
+        /// <summary>
+        /// Add new items to the end of the queue
+        /// </summary>
+        /// <param name="obs">obstacle to enqueue</param>
         public void Enqueue(Obstacle obs)
         {
             // if count is 1, add new item after the head, otherwise add it after the current tail
@@ -46,27 +57,42 @@ namespace PASS3.Classes
             count++;
         }
 
-        // Remove items from the start of the queue, then return them
+        /// <summary>
+        /// Remove items from the start of the queue, then return them
+        /// </summary>
+        /// <returns>Obstacle that was removed from the queue</returns>
         public Obstacle Dequeue()
         {
             // Reassign the head. Leave it to be cleaned up by the garbage collector 
             Obstacle temp = head.Val;
             head = head.Next;
+
+            // decrease count
             count--;
+
+            // return removed obstacle
             return temp;
         }
 
+        /// <summary>
+        /// Accessor for the head of the list
+        /// </summary>
         public Node Head
         {
             get { return head; }
         }
 
+        /// <summary>
+        /// Accessor for the tail of the list
+        /// </summary>
         public Node Tail
         {
             get { return tail; }
         }
 
-        // Count property, obtain count
+        /// <summary>
+        /// Property for the count of the list
+        /// </summary>
         public int Count
         {
             get { return count; }
@@ -84,19 +110,26 @@ namespace PASS3.Classes
         // Store address of next node
         private Node next;
 
-        // Create node object
+        /// <summary>
+        /// Create node object
+        /// </summary>
+        /// <param name="value">the obstacle that is being contained</param>
         public Node(Obstacle value)
         {
             this.value = value;
         }
 
-        // Value property, obtain value
+        /// <summary>
+        /// Value property, obtain value
+        /// </summary>
         public Obstacle Val
         {
             get { return value; }
         }
 
-        // Next node property, obtain next node
+        /// <summary>
+        /// Next node property, obtain next node
+        /// </summary>
         public Node Next
         {
             get { return next; }
