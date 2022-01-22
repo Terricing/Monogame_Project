@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Components\Boss\AttackManager.cs" />
     <Compile Include="Classes\Components\Boss\Hand.cs" />
     <Compile Include="Classes\Components\Boss\Head.cs" />
     <Compile Include="Classes\Components\Boss\LeftHand.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Classes\Screen\Cutscenes\Scene1.cs" />
     <Compile Include="Classes\Screen\Cutscenes\Scene2.cs" />
     <Compile Include="Classes\Screen\Cutscenes\Scene3.cs" />
+    <Compile Include="Classes\Screen\Cutscenes\Scene4.cs" />
     <Compile Include="Classes\Screen\Cutscenes\StartScene.cs" />
     <Compile Include="Classes\Screen\GameOver.cs" />
     <Compile Include="Classes\Screen\ObstacleManager.cs" />

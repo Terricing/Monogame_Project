@@ -79,6 +79,7 @@ namespace PASS3.Classes.Components.Boss
                 isDisappearing = false;
                 isShown = false;
             }
+            head.Y = (int)pos;
         }
 
         public bool IsAppearing

@@ -143,5 +143,10 @@ namespace PASS3
             get { return drawCharacter; }
             set { drawCharacter = value; }
         }
+
+        public int Lane
+        {
+            get { return lane; }
+        }
     }
 }

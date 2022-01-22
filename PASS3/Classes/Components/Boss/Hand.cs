@@ -83,9 +83,9 @@ namespace PASS3.Classes.Components.Boss
             else
             {
                 // when finished translation, set values accordingly
-                handPos = endPos;
+                handPos = startPos;
                 isAppearing = false;
-                isShown = true;
+                isShown = false;
                 handTimer = 0;
             }
 

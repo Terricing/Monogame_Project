@@ -26,6 +26,15 @@ namespace PASS3.Classes.Levels
         private RightHand rightHand;
         private Head head;
 
+        // Store attack manager
+        private AttackManager attacks;
+
+        private float attackTimer;
+        private float attackTimeInterval = 5f;
+        private int numAttacks;
+
+        private bool isOver;
+
 
         public Level3(ContentManager content, LifeManager lifeManager) : base ("Screens/Game/Stage3/bg", content, lifeManager)
         {
@@ -35,20 +44,66 @@ namespace PASS3.Classes.Levels
             // Create hands
             leftHand = new LeftHand(content);
             rightHand = new RightHand(content);
+
+            // create attack manager
+            attacks = new AttackManager(content, leftHand, rightHand, head, player);
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
             leftHand.LoadContent();
+            rightHand.LoadContent();
+            head.LoadContent();
+
+            attackTimer = 3;
+            isOver = false;
         }
 
         public override void Update(GameTime gameTime, KeyboardState kb)
         {
             base.Update(gameTime, kb);
-            head.Appear(gameTime);
-            leftHand.Appear(gameTime);
-            rightHand.Appear(gameTime);
+            attacks.Update(gameTime);
+            //attacks.DoLeftAttack();
+            ////attacks.DoRightAttack();
+            //attacks.DoCenterAttack();
+
+            // Attack algorithm
+            // increase attack timer
+            attackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (attackTimer >= attackTimeInterval)
+            {
+                // if attack timer greater than interval, perform random attack
+                attacks.RandomAttack();
+
+                // reset attack timer
+                attackTimer = 0;
+
+                // increment number of attacks
+                numAttacks++;
+
+                if (numAttacks == 3)
+                {
+                    attackTimeInterval = 4.5f;
+                }
+                else if (numAttacks == 6)
+                {
+                    attackTimeInterval = 4f;
+                }
+                else if (numAttacks == 8)
+                {
+                    attackTimeInterval = 3f;
+                }
+
+                if (numAttacks == 15)
+                {
+                    isOver = true;
+                }
+            }
+
+            //head.Appear(gameTime);
+            //leftHand.Appear(gameTime);
+            //rightHand.Appear(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -57,18 +112,14 @@ namespace PASS3.Classes.Levels
             head.Draw(spriteBatch);
             leftHand.Draw(spriteBatch);
             rightHand.Draw(spriteBatch);
+
+            attacks.Draw(spriteBatch);
             //rightHand.Draw(spriteBatch);
         }
 
-        public void DoLeftAttack()
+        public bool IsOver
         {
-        }
-
-
-
-        public void DissappearLeftHand()
-        {
-
+            get { return isOver; }
         }
     }
 }
