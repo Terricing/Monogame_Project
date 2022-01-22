@@ -18,8 +18,8 @@ namespace PASS3.Classes.Screen.Cutscenes
             bg.LoadContent(0, 0);
 
             fullText = new string[2];
-            fullText[0] = " It is not over yet!";
-            fullText[1] = " You will never get away with this!";
+            fullText[0] = " You have won this time!\nBut it is not over yet!";
+            fullText[1] = " Let's see how long you can last...";
         }
 
     }

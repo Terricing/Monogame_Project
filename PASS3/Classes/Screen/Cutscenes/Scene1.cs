@@ -26,12 +26,8 @@ namespace PASS3.Classes.Screen.Cutscenes
 
             fullText = new string[2];
             fullText[0] = $" Hello, {name}, where is your PASS3?";
-            fullText[1] = " You will never get away with this!";
-        }
+            fullText[1] = " You think you can get away with not doing it????\nYou will not get away with this!";
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            base.Draw(spriteBatch);
         }
     }
 }

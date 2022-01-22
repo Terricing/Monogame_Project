@@ -17,14 +17,10 @@ namespace PASS3.Classes.Screen.Cutscenes
             bg = new Img(content.Load<Texture2D>("Screens/Cutscenes/Scene3/bg"));
             bg.LoadContent(0, 0);
 
-            fullText = new string[2];
+            fullText = new string[3];
             fullText[0] = " Welcome to my realm!";
-            fullText[1] = " You will never get away with this!";
-        }
-
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            base.Draw(spriteBatch);
+            fullText[1] = " You cannot escape me here!";
+            fullText[2] = " Mwahahahaha!";
         }
 
     }

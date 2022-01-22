@@ -18,13 +18,8 @@ namespace PASS3.Classes.Screen.Cutscenes
             bg.LoadContent(0, 0);
 
             fullText = new string[2];
-            fullText[0] = " You have managed to escape the school!";
-            fullText[1] = " You will never get away with this!";
-        }
-
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            base.Draw(spriteBatch);
+            fullText[0] = " You managed to escape the school!";
+            fullText[1] = " I cannot chase you anymore, but I assure you this is not the end...";
         }
 
 

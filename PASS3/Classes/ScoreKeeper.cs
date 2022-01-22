@@ -12,10 +12,9 @@ namespace PASS3.Classes.Screen
     class ScoreKeeper
     {
         private List<Score> scores;
-        private const string FILE_PATH = "scores.txt";
+        private const string FILE_PATH = "Content/scores.txt";
         private StreamWriter outFile;
         private StreamReader inFile;
-
 
         public ScoreKeeper()
         {
@@ -36,10 +35,16 @@ namespace PASS3.Classes.Screen
                     data = text.Split(',');
                     scores.Add(new Score(data[0], Convert.ToInt32(data[1])));
                 }
+                inFile.Close();
+                //foreach (Score score in scores)
+                //{
+                //    Console.WriteLine(score.Name + "," + score.Val);
+                //}
+
             }
         }
 
-        public void PerformWrite(string name, int score)
+        public void AddScore(string name, int score)
         {
             // cycle through the scores
             for (int i = 0; i < scores.Count; i++)
@@ -48,8 +53,26 @@ namespace PASS3.Classes.Screen
                 if (score > scores[i].Val)
                 {
                     scores.Insert(i, new Score(name, score));
+                    return;
                 }
             }
+
+            scores.Add(new Score(name, score));
+        }
+
+        public void PerformWrite()
+        {
+            // open file
+            outFile = new StreamWriter(FILE_PATH);
+            foreach(Score score in scores)
+            {
+                Console.WriteLine($"{score.Name},{score.Val}");
+                outFile.WriteLine($"{score.Name},{score.Val}");
+            }
+
+            
+
+            outFile.Close();
         }
 
         public string ObtainName(int score)
@@ -59,9 +82,10 @@ namespace PASS3.Classes.Screen
             int r = scores.Count - 1;
             int mid;
 
-            while (l < r)
+            while (l <= r)
             {
-                mid = l + (r - 1) / 2;
+                //mid = l + (r - 1) / 2;
+                mid = (l+r) / 2;
 
                 if (scores[mid].Val == score)
                 {

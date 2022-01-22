@@ -14,7 +14,7 @@ namespace PASS3.Classes.Levels
 {
     class Level4 : Level
     {
-        public const int LEVEL = 5;
+        public const int LEVEL = 4;
 
         private Obstacle[] obstacles = new Obstacle[3];
         private ObstacleManager obsMan;

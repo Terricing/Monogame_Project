@@ -19,10 +19,12 @@ namespace PASS3.Classes.Screen
         public const int GAMESTATE = 3;
         private Img bg;
         private Button gameOverBtn;
-        int selected;
+        private ScoreKeeper scores;
 
-        public GameOver(ContentManager content)
+        public GameOver(ContentManager content, ScoreKeeper scores)
         {
+            this.scores = scores;
+
             bg = new Img(content.Load<Texture2D>("Screens/GameOver/Bg"));
             bg.LoadContent(0,0);
 
@@ -37,6 +39,8 @@ namespace PASS3.Classes.Screen
             {
                 if (gameOverBtn.CheckCollision(mouseState.Position))
                 {
+                    scores.AddScore(Globals.PlayerName, Globals.Score);
+                    scores.PerformWrite();
                     Globals.GameState = Menu.GAMESTATE;
                 }
             }

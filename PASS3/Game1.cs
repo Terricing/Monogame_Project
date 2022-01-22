@@ -72,7 +72,7 @@ namespace PASS3
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Create menu
-            menu = new Menu(Content);
+            menu = new Menu(Content, this);
 
             // Create game assets
             mainGame = new MainGame(Content, graphics.GraphicsDevice);
@@ -82,12 +82,12 @@ namespace PASS3
 
             //mainGame.LoadCutsceneManager(cutsceneManager);
 
-            // create game over screen
-            gameOver = new GameOver(Content);
-
             // Create scoreboard and score keeper
             scores = new ScoreKeeper();
             scoreBoard = new ScoreBoard(Content, scores, GraphicsDevice);
+
+            // create game over screen
+            gameOver = new GameOver(Content, scores);
 
             startScene = new StartScene(Content);
 
@@ -112,11 +112,10 @@ namespace PASS3
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
             switch (Globals.GameState)
             {
                 case Menu.GAMESTATE:
-                    menu.Update(gameTime);
+                    menu.Update();
 
                     //if (Globals.GameState == CutsceneManager.GAMESTATE)
                     //{

@@ -103,6 +103,7 @@ namespace PASS3.Classes.Screen.Cutscenes
                 // if name input is long enough, proceed to cutscene
                 if (name.Length > 0)
                 {
+                    Globals.PlayerName = name;
                     isOver = true;
                 }
 

@@ -21,7 +21,7 @@ namespace PASS3.Classes.Screen
         private const int SCORE = 2;
 
         // store graphics device
-        GraphicsDevice gd;
+        private GraphicsDevice gd;
 
         // store which button is selected
         private int buttonState;
@@ -46,6 +46,7 @@ namespace PASS3.Classes.Screen
 
         // store mouse and keyboard state
         private MouseState mouseState;
+        private MouseState prevMouseState;
         private KeyboardState kb;
         private KeyboardState prevKb;
         // store currently pressed keys
@@ -94,12 +95,12 @@ namespace PASS3.Classes.Screen
             resultRect.X = Globals.GAME_WIDTH / 2 - resultRect.Width / 2;
             resultRect.Y = Globals.GAME_HEIGHT / 2 - resultRect.Height / 2;
             resultBg = new Helper.GameRectangle(gd, resultRect);
-
         }
 
         public void Update(GameTime gameTime)
         {
             // Obtain mouse state
+            prevMouseState = mouseState;
             mouseState = Mouse.GetState();
 
             // obtain keyboard state
@@ -114,7 +115,7 @@ namespace PASS3.Classes.Screen
             searchBtn.Update(mouseState);
 
             // If mouse is pressed, check if any buttons were pressed
-            if (mouseState.LeftButton == ButtonState.Pressed)
+            if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton != ButtonState.Pressed)
             {
                 if (nameBtn.BtRect.Contains(mouseState.Position))
                 {

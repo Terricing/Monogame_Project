@@ -48,7 +48,6 @@ namespace PASS3
         Scene3 scene3;
         Scene4 scene4;
 
-        private int score;
         private Timer scoreTimer;
         private SpriteFont scoreFont;
         private Vector2 scorePos;
@@ -110,7 +109,7 @@ namespace PASS3
             //state = GAME;
             //Globals.LevelState = Level4.LEVEL;
 
-            score = 0;
+            Globals.Score = 0;
         }
 
         int levelState;
@@ -161,7 +160,7 @@ namespace PASS3
                     if (scoreTimer.IsFinished())
                     {
                         // Increase the score based on the level and amount of lives
-                        score += (lifeManager.Lives) * Globals.LevelState;
+                        Globals.Score += (lifeManager.Lives) * Globals.LevelState;
                         // reset the score
                         scoreTimer.ResetTimer(true);
                     }
@@ -244,7 +243,7 @@ namespace PASS3
                     }
 
                     lifeManager.Draw(spriteBatch);
-                    spriteBatch.DrawString(scoreFont, scoreText + score, scorePos, Color.Blue);
+                    spriteBatch.DrawString(scoreFont, scoreText + Globals.Score, scorePos, Color.MediumVioletRed);
 
                     break;
                 case SCENE:

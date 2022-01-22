@@ -24,6 +24,9 @@ namespace PASS3.Classes
 
         private static float bgScrollSpeed = 400f;
 
+        private static string playerName;
+        private static int score;
+
         // store lane positions
         private static int[] lanePos = new int[] { (int)(Globals.GAME_WIDTH / 3.3f), (int)(Globals.GAME_WIDTH / 2f), (int)(Globals.GAME_WIDTH / 1.45f) };
 
@@ -53,6 +56,18 @@ namespace PASS3.Classes
         public static float BgScrollSpeed
         {
             get { return bgScrollSpeed; }
+        }
+
+        public static string PlayerName
+        {
+            get { return playerName; }
+            set { playerName = value; }
+        }
+
+        public static int Score
+        {
+            get { return score; }
+            set { score = value; }
         }
     }
 }
