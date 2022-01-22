@@ -1,4 +1,11 @@
-﻿using System;
+﻿// Author: Eilay Katsnelson
+// File Name: Game1.cs
+// Project Name: PASS3
+// Creation Date: January 6, 2022
+// Modified Date: January 21, 2022
+// Description: A game titled Stay in Your LANE featuring Mr. Lane and a student
+
+using System;
 using System.IO;
 using System.Linq;
 using System.Collections;
@@ -35,7 +42,6 @@ namespace PASS3
 
         // Store score keeper
         private ScoreKeeper scores;
-        // store cutscene manager
 
         public Game1()
         {
@@ -77,11 +83,6 @@ namespace PASS3
             // Create game assets
             mainGame = new MainGame(Content, graphics.GraphicsDevice);
 
-            //// create cutscene manager
-            //cutsceneManager = new CutsceneManager(Content, mainGame, GraphicsDevice);
-
-            //mainGame.LoadCutsceneManager(cutsceneManager);
-
             // Create scoreboard and score keeper
             scores = new ScoreKeeper();
             scoreBoard = new ScoreBoard(Content, scores, GraphicsDevice);
@@ -89,6 +90,7 @@ namespace PASS3
             // create game over screen
             gameOver = new GameOver(Content, scores);
 
+            // create start scene, whcih can obtain player's name
             startScene = new StartScene(Content);
 
             // set inital gameState
@@ -112,16 +114,13 @@ namespace PASS3
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            // Update part of the game that is currently running
             switch (Globals.GameState)
             {
                 case Menu.GAMESTATE:
                     menu.Update();
 
-                    //if (Globals.GameState == CutsceneManager.GAMESTATE)
-                    //{
-                    //    cutsceneManager.LoadContent();
-                    //}
-
+                    // if menu switches to a different part of the game, load (reset) that component
                     if (Globals.GameState == StartScene.GAMESTATE)
                     {
                         startScene.LoadContent();
@@ -130,7 +129,6 @@ namespace PASS3
                     {
                         scoreBoard.LoadContent();
                     }
-
                     break;
                 case MainGame.GAMESTATE:
                     mainGame.Update(gameTime);
@@ -143,9 +141,11 @@ namespace PASS3
                     break;
                 case StartScene.GAMESTATE:
                     startScene.Update();
+
+                    // if start scene is finished, load (reset) mainGame component, then switch the gamestate
                     if (startScene.IsOver)
                     {
-                        mainGame.LoadContent(startScene.GetName());
+                        mainGame.LoadContent();
                         Globals.GameState = MainGame.GAMESTATE;
                     }
 
@@ -163,7 +163,8 @@ namespace PASS3
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            // Draw componenet that is currently running
+
             switch (Globals.GameState)
             {
                 case Menu.GAMESTATE:
@@ -182,7 +183,6 @@ namespace PASS3
                     startScene.Draw(spriteBatch);
                     break;
             }
-
 
             base.Draw(gameTime);
         }

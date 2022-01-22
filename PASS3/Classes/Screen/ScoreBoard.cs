@@ -103,6 +103,9 @@ namespace PASS3.Classes.Screen
             // set to non button value so no buttons are highlighted
             buttonState = 3;
 
+            nameBtn.IsSelected = false;
+            scoreBtn.IsSelected = false;
+
             showResult = false;
         }
 
@@ -301,8 +304,6 @@ namespace PASS3.Classes.Screen
                 {
                     showResult = false;
                     search = "";
-                    nameBtn.IsSelected = false;
-                    scoreBtn.IsSelected = false;
                 }
             }
 

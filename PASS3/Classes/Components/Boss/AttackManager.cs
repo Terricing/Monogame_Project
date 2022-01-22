@@ -1,4 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿// Author: Eilay Katsnelson
+// File Name: AttackManager.cs
+// Project Name: PASS3
+// Creation Date: January 6, 2022
+// Modified Date: January 21, 2022
+// Description: A class that manages attacks from Mr. Lane
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,18 +18,23 @@ namespace PASS3.Classes.Components.Boss
 {
     class AttackManager
     {
+        // Store images for attacks
         private Img leftLaser;
         private Img rightLaser;
         private Img centerLaser;
 
+        // Store boss body parts
         private LeftHand leftHand;
         private RightHand rightHand;
         private Head head;
 
+        // store player's object
         private Player player;
 
+        // attackTime representing how long an attack takes
         private float attackTime = 3f;
 
+        // store state info for left, right, and center attacks
         private float leftAttackTimer;
         private bool leftAttack;
         private bool showLeftAttack;
@@ -34,7 +46,6 @@ namespace PASS3.Classes.Components.Boss
         private float centerAttackTimer;
         private bool centerAttack;
         private bool showCenterAttack;
-
         public AttackManager(ContentManager content, LeftHand leftHand, RightHand rightHand, Head head, Player player)
         {
             this.leftHand = leftHand;

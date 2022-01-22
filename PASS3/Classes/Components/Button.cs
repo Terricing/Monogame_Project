@@ -1,4 +1,9 @@
-﻿// Class for creating buttons that are highlighted when pressed
+﻿// Author: Eilay Katsnelson
+// File Name: Button.cs
+// Project Name: PASS3
+// Creation Date: January 6, 2022
+// Modified Date: January 21, 2022
+// Description: Class for creating buttons that are highlighted when hovered
 
 using System;
 using System.Collections.Generic;
@@ -18,19 +23,30 @@ namespace PASS3
 {
     class Button
     {
-        // What the button looks like
+       // Store button's normal image
         private Texture2D bt;
         private Rectangle btRect;
 
-        // What the button looks like when highlighted
+        // Store button's highlighted image
         private Texture2D selectedBt;
         private Rectangle selectedBtRect;
 
+        // store button's state
         private bool isHighlighted = false;
         private bool isSelected = false;
 
-        private Vector2 mousePosVect;
+        // Store mouse's location
+        private Vector2 mousePosVect = new Vector2(0, 0);
 
+        /// <summary>
+        /// Button constructor
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="btPath"></param>
+        /// <param name="selectedBtPath"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="scale"></param>
         public Button(ContentManager content, string btPath, string selectedBtPath, int x, int y, float scale = 1f)
         {
             // Load the buttons and create rectangles
@@ -38,18 +54,18 @@ namespace PASS3
             btRect = new Rectangle(x, y, (int)(bt.Width * scale), (int)(bt.Height * scale));
             selectedBt = content.Load<Texture2D>(selectedBtPath);
             selectedBtRect = new Rectangle(x, y, (int)(scale * selectedBt.Width), (int)(scale * selectedBt.Height));
-
-            mousePosVect = new Vector2(0, 0);
-
-            if (scale != 1)
-            {
-            }
         }
 
+        /// <summary>
+        /// Draw button
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
+            // if button is not selected
             if (!isSelected)
             {
+                // if button is hovered over, draw regular button, else draw highlighted button
                 if (!isHighlighted)
                 {
                     spriteBatch.Draw(bt, btRect, Color.White);
@@ -61,13 +77,19 @@ namespace PASS3
             }
             else
             {
+                // if button is selected, draw highlighted version
                 spriteBatch.Draw(selectedBt, selectedBtRect, Color.White);
             }
 
         }
 
+        /// <summary>
+        /// Update button
+        /// </summary>
+        /// <param name="mouseState"></param>
         public void Update(MouseState mouseState)
         {
+            // Change button state depending on whether it is hovered on
             if (CheckCollision(mouseState.Position))
             {
                 isHighlighted = true;
@@ -78,24 +100,39 @@ namespace PASS3
             }
         }
 
+        /// <summary>
+        /// Check whether a mouse point collides with the button
+        /// </summary>
+        /// <param name="mousePos">represents mouse's location</param>
+        /// <returns></returns>
         public bool CheckCollision(Point mousePos)
         {
+            // return the result of the collision check
             mousePosVect.X = mousePos.X;
             mousePosVect.Y = mousePos.Y;
             return Helper.Util.Intersects(btRect, mousePosVect);
         }
 
+        /// <summary>
+        /// Property for whether button is selected
+        /// </summary>
         public bool IsSelected
         {
             get { return isSelected; }
             set { isSelected = value; }
         }
 
+        /// <summary>
+        /// Property for accessing button's rectangle
+        /// </summary>
         public Rectangle BtRect
         {
             get { return btRect; }
         }
 
+        /// <summary>
+        /// Property for button's x location
+        /// </summary>
         public int X
         {
             get { return btRect.X; }
@@ -106,6 +143,9 @@ namespace PASS3
             }
         }
 
+        /// <summary>
+        /// Property for button's y location
+        /// </summary>
         public int Y
         {
             get { return btRect.Y; }

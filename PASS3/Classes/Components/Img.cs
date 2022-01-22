@@ -1,5 +1,11 @@
-﻿// Generic img class to simplify process of adding images.
+﻿// Author: Eilay Katsnelson
+// File Name: Img.cs
+// Project Name: PASS3
+// Creation Date: January 6, 2022
+// Modified Date: January 21, 2022
+// Description: Generic image class to simplify process of adding images.
 // Designed to be modular so can be used in different scenearios.
+
 
 using System;
 using System.Collections.Generic;
@@ -23,18 +29,27 @@ namespace PASS3
         private Texture2D img;
         private Rectangle imgRect;
 
-        // Constructor overload where Texture2D is already loaded (from another image)
-        // probably not needed
+        /// <summary>
+        /// Constructor for creating img objects
+        /// </summary>
+        /// <param name="img">The image that the object should hold</param>
         public Img (Texture2D img)
         {
             this.img = img;
         }
 
-
+        /// <summary>
+        /// Create rectangle for the image
+        /// </summary>
+        /// <param name="x">x-location</param>
+        /// <param name="y">y-location</param>
+        /// <param name="scale">optional scale</param>
         public void LoadContent(int x, int y, float scale = 1f)
         {
+            // create rectangle
             imgRect = new Rectangle(x, y, img.Width, img.Height);
 
+            // implement scale
             if (scale != 1f)
             {
                 imgRect.Width = (int)(imgRect.Width * scale);
@@ -42,84 +57,55 @@ namespace PASS3
             }
         }
 
-        //public void LoadContent(ContentManager content, string path, int x, int y, float scale = 1f)
-        //{
-        //    img = content.Load<Texture2D>(path);
-        //    imgRect = new Rectangle(x, y, img.Width, img.Height);
-        //    if (scale != 1f)
-        //    {
-        //        imgRect.Width = (int)(imgRect.Width * scale);
-        //        imgRect.Height = (int)(imgRect.Height * scale);
-        //    }
-        //}
-        //// Overload 1, loadcontent where rectangle is specified immidiately
-        //public void LoadContent(ContentManager content, string path, Rectangle imgRect)
-        //{
-        //    img = content.Load<Texture2D>(path);
-        //    this.imgRect = imgRect;
-        //}
-
-        //// Overload 2, loadcontent where rectangle is not specified to allow flexibility and create it after img is loaded
-        //public void LoadContent(ContentManager content, string path)
-        //{
-        //    img = content.Load<Texture2D>(path);
-        //}
-
-        //// Overload 3, where texture2D has already been loaded (from another image) and only the rectangle remains
-        //public void LoadContent(ContentManager contentManager, Rectangle imgRect)
-        //{
-        //    this.imgRect = imgRect;
-        //}        //// Overload 1, loadcontent where rectangle is specified immidiately
-        //public void LoadContent(ContentManager content, string path, Rectangle imgRect)
-        //{
-        //    img = content.Load<Texture2D>(path);
-        //    this.imgRect = imgRect;
-        //}
-
-        //// Overload 2, loadcontent where rectangle is not specified to allow flexibility and create it after img is loaded
-        //public void LoadContent(ContentManager content, string path)
-        //{
-        //    img = content.Load<Texture2D>(path);
-        //}
-
-        //// Overload 3, where texture2D has already been loaded (from another image) and only the rectangle remains
-        //public void LoadContent(ContentManager contentManager, Rectangle imgRect)
-        //{
-        //    this.imgRect = imgRect;
-        //}
-
-        // Draw, overload 1, where no color is specified so that no change is made to the img
+        /// <summary>
+        /// Draw image
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(img, imgRect, Color.White);
         }
 
-        // Draw, overload 2, where color is specified to allow custom modification
+        /// <summary>
+        /// Draw, overload, where color is specified to allow custom modification
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="color">Represents color that should cover the image</param>
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
             spriteBatch.Draw(img, imgRect, color);
         }
 
-        // Properties
+        /// <summary>
+        /// Property for the image's underlying texture
+        /// </summary>
         public Texture2D Image
         {
             get { return img; }
             set { img = value; }
         }
 
+        /// <summary>
+        /// Property for the image's rectangle
+        /// </summary>
         public Rectangle ImgRect
         {
             get { return imgRect; }
             set { imgRect = value; }
         }
 
-        // remove this if possible
+        /// <summary>
+        /// Property for image's x-location
+        /// </summary>
         public int X
         {
             get { return imgRect.X; }
             set { imgRect.X = value; }
         }
 
+        /// <summary>
+        /// Property for image's y-location
+        /// </summary>
         public int Y
         {
             get { return imgRect.Y; }

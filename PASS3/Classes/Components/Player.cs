@@ -1,4 +1,11 @@
-﻿using System;
+﻿// Author: Eilay Katsnelson
+// File Name: Player.cs
+// Project Name: PASS3
+// Creation Date: January 6, 2022
+// Modified Date: January 21, 2022
+// Description: A class representing the player
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +28,10 @@ namespace PASS3
 {
     class Player
     {
+        // create player animation
         private Animation player;
+
+        // store player's lane
         private int lane;
 
         // control moving lane to lane
@@ -29,35 +39,51 @@ namespace PASS3
         private float playerSpeed;
         private int dir;
         private float actualPos;
-
         private int curLanePos;
 
+        // store player state info
         private bool drawCharacter;
         private bool isHit;
 
+        // store game's life manager
         private LifeManager lifeManager;
 
+        // maintain keyboard's state
+        private KeyboardState prevKb;
+
+        /// <summary>
+        /// Create player object
+        /// </summary>
+        /// <param name="lifeManager">controls remaining lives</param>
         public Player(LifeManager lifeManager)
         {
-            // set default lane
+            // set default value
             lane = 1;
             isHit = false;
-
             drawCharacter = true;
-
             this.lifeManager = lifeManager;
         }
 
+        /// <summary>
+        /// load player and create rectangle
+        /// </summary>
+        /// <param name="content">Allows for loading of content</param>
         public void LoadContent(ContentManager content)
         {
+            // load player and create rectangle
             player = new Animation(content.Load<Texture2D>("Screens/Game/running_player"), 2, 1, 2, 0, Animation.NO_IDLE, Animation.ANIMATE_FOREVER, 6, new Vector2(Globals.LanePos[1]), 0.6f, true);
             player.destRec.X -= player.destRec.Width / 2;
             actualPos = player.destRec.X;
         }
 
-        KeyboardState prevKb;
+        /// <summary>
+        /// Update player
+        /// </summary>
+        /// <param name="gameTime">calculate time between updates</param>
+        /// <param name="kb">information about current keypresses</param>
         public void Update(GameTime gameTime, KeyboardState kb)
         {
+            // update player's animation
             player.Update(gameTime);
 
             // change lane on request
@@ -85,42 +111,50 @@ namespace PASS3
             actualPos += playerSpeed;
             player.destRec.X = (int)actualPos;
 
+            // Create visual invincibility effect when a life is lost
             if (lifeManager.InvincibilityTimer.IsActive())
             {
                 drawCharacter = !drawCharacter;
             }
             else if (lifeManager.InvincibilityTimer.IsFinished())
             {
+                // stop invincibility effect when invincibility timer is finished
                 drawCharacter = true;
                 isHit = false;
                 lifeManager.InvincibilityTimer.Deactivate();
             }
 
-            // store kb state
+            // store previous frame's keyboard state
             prevKb = kb;
         }
 
+        /// <summary>
+        /// Draw player
+        /// </summary>
+        /// <param name="spriteBatch">Controller for screen's canvas</param>
         public void Draw(SpriteBatch spriteBatch)
         {
+            // draw character or flicker character
             if (drawCharacter)
             {
                 player.Draw(spriteBatch, Color.White, Animation.FLIP_NONE);
             }
         }
 
+        /// <summary>
+        /// Accessor for character's bounding rectangle
+        /// </summary>
         public Rectangle Rect
         {
             get { return player.destRec; }
         }
 
+        /// <summary>
+        /// Lose a life
+        /// </summary>
         public void LoseLife()
         {
             isHit = true;
-            // if lives are less than 0, game over
-            if (lifeManager.Lives <= 0)
-            {
-                Globals.GameState = GameOver.GAMESTATE;
-            }
 
             // if invincibility timer is inactive, decrement lives and start timer
             if (lifeManager.InvincibilityTimer.IsInactive())
@@ -128,20 +162,19 @@ namespace PASS3
                 isHit = true;
                 lifeManager.LoseLife();
             }
-
         }
 
+        /// <summary>
+        /// Accessor for whether the player is currently hit and has invincibility
+        /// </summary>
         public bool IsHit
         {
             get { return isHit; }
         }
 
-        public bool DrawCharacer
-        {
-            get { return drawCharacter; }
-            set { drawCharacter = value; }
-        }
-
+        /// <summary>
+        /// Accessor for character's current lane
+        /// </summary>
         public int Lane
         {
             get { return lane; }

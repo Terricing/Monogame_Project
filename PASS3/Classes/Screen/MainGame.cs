@@ -75,10 +75,8 @@ namespace PASS3
 
         }
 
-        public void LoadContent(string name)
+        public void LoadContent()
         {
-            playerName = name;
-
             lifeManager = new LifeManager(content);
             Globals.LevelState = Level1.LEVEL;
 
@@ -95,7 +93,7 @@ namespace PASS3
             level4.LoadContent();
 
             // load scenes
-            scene1.LoadContent(name);
+            scene1.LoadContent();
             scene2.LoadContent();
             scene3.LoadContent();
             scene4.LoadContent();
