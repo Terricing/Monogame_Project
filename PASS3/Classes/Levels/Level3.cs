@@ -1,4 +1,11 @@
-﻿using Helper;
+﻿// Author: Eilay Katsnelson
+// File Name: Level2.cs
+// Project Name: PASS3
+// Creation Date: January 6, 2022
+// Modified Date: January 21, 2022
+// Description: A child level class for the third level
+
+using Helper;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,11 +22,8 @@ namespace PASS3.Classes.Levels
 {
     class Level3 : Level
     {
+        // set level state
         public const int LEVEL = 3;
-        const int NONE = 0;
-        const int LEFT = 1;
-        const int RIGHT = 2;
-        const int BOTH = 3;
 
         // store boss body parts
         private LeftHand leftHand;
@@ -29,13 +33,21 @@ namespace PASS3.Classes.Levels
         // Store attack manager
         private AttackManager attacks;
 
+        // Store attack timer info
         private float attackTimer;
         private float attackTimeInterval = 5f;
+
+        // store number of attacks (for controlling difficulty)
         private int numAttacks;
 
+        // Keep track of whether level is over
         private bool isOver;
 
-
+        /// <summary>
+        /// Create third level
+        /// </summary>
+        /// <param name="content">load content</param>
+        /// <param name="lifeManager">Keep track of lives</param>
         public Level3(ContentManager content, LifeManager lifeManager) : base ("Screens/Game/Stage3/bg", content, lifeManager)
         {
             // create head
@@ -49,6 +61,9 @@ namespace PASS3.Classes.Levels
             attacks = new AttackManager(content, leftHand, rightHand, head, player);
         }
 
+        /// <summary>
+        /// Reset values
+        /// </summary>
         public override void LoadContent()
         {
             base.LoadContent();
@@ -60,13 +75,15 @@ namespace PASS3.Classes.Levels
             isOver = false;
         }
 
+        /// <summary>
+        /// Update level
+        /// </summary>
+        /// <param name="gameTime">time between updates</param>
+        /// <param name="kb">keep track of keypresses</param>
         public override void Update(GameTime gameTime, KeyboardState kb)
         {
             base.Update(gameTime, kb);
             attacks.Update(gameTime);
-            //attacks.DoLeftAttack();
-            ////attacks.DoRightAttack();
-            //attacks.DoCenterAttack();
 
             // Attack algorithm
             // increase attack timer
@@ -82,6 +99,8 @@ namespace PASS3.Classes.Levels
                 // increment number of attacks
                 numAttacks++;
 
+                // set time between attacks based on the number of occured attacks
+                // this gradually increases difficulty
                 if (numAttacks == 3)
                 {
                     attackTimeInterval = 4.5f;
@@ -95,28 +114,34 @@ namespace PASS3.Classes.Levels
                     attackTimeInterval = 3.3f;
                 }
 
+                // if 15 attacks were reached, level is over
                 if (numAttacks == 15)
                 {
                     isOver = true;
                 }
             }
-
-            //head.Appear(gameTime);
-            //leftHand.Appear(gameTime);
-            //rightHand.Appear(gameTime);
         }
 
+        /// <summary>
+        /// Draw third level
+        /// </summary>
+        /// <param name="spriteBatch">controls screen's canvas</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
+            
+            // Draw boss's parts
             head.Draw(spriteBatch);
             leftHand.Draw(spriteBatch);
             rightHand.Draw(spriteBatch);
 
+            // draw attacks
             attacks.Draw(spriteBatch);
-            //rightHand.Draw(spriteBatch);
         }
 
+        /// <summary>
+        /// Accessor for whether level is over
+        /// </summary>
         public bool IsOver
         {
             get { return isOver; }
