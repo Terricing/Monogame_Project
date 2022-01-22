@@ -36,10 +36,6 @@ namespace PASS3.Classes.Screen
                     scores.Add(new Score(data[0], Convert.ToInt32(data[1])));
                 }
                 inFile.Close();
-                //foreach (Score score in scores)
-                //{
-                //    Console.WriteLine(score.Name + "," + score.Val);
-                //}
 
             }
         }
@@ -66,11 +62,8 @@ namespace PASS3.Classes.Screen
             outFile = new StreamWriter(FILE_PATH);
             foreach(Score score in scores)
             {
-                Console.WriteLine($"{score.Name},{score.Val}");
                 outFile.WriteLine($"{score.Name},{score.Val}");
             }
-
-            
 
             outFile.Close();
         }
@@ -84,22 +77,23 @@ namespace PASS3.Classes.Screen
 
             while (l <= r)
             {
-                //mid = l + (r - 1) / 2;
-                mid = (l+r) / 2;
+                mid = (l + r) / 2;
 
-                if (scores[mid].Val == score)
-                {
-                    return scores[mid].Name;
-                }
-                else if (scores[mid].Val > score)
+                if (score < scores[mid].Val)
                 {
                     l = mid + 1;
                 }
-                else
+                else if (score > scores[mid].Val)
                 {
                     r = mid - 1;
                 }
+                else
+                {
+                    return scores[mid].Name;
+                }
+
             }
+           
 
             // return empty value if not found
             return "";

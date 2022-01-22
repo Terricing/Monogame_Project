@@ -124,8 +124,11 @@ namespace PASS3
 
                     if (Globals.GameState == StartScene.GAMESTATE)
                     {
-                        Console.WriteLine(true);
                         startScene.LoadContent();
+                    }
+                    else if (Globals.GameState == ScoreBoard.GAMESTATE)
+                    {
+                        scoreBoard.LoadContent();
                     }
 
                     break;

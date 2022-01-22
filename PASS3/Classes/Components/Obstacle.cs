@@ -55,7 +55,6 @@ namespace PASS3
         public void Draw(SpriteBatch spriteBatch)
         {
             obs.Draw(spriteBatch);
-            spriteBatch.DrawRectangle(obs.ImgRect, Color.Orange);
         }
 
         public bool IsOffScreen()

@@ -21,12 +21,8 @@ namespace PASS3.Classes.Levels
     class Level1 : Level
     {
         public const int LEVEL = 1;
-
-
         private Obstacle[] obstacles = new Obstacle[4];
         private ObstacleManager obsMan;
-
-
         public Level1(string bgPath, ContentManager content, LifeManager lifeManager, GraphicsDevice gd) : base(bgPath, content, lifeManager)
         {
             // Create level's obstacle manager
@@ -40,8 +36,7 @@ namespace PASS3.Classes.Levels
         {
             base.LoadContent();
 
-            //obsMan = new ObstacleManager(15, obstacles, 3, 500);
-            obsMan = new ObstacleManager(3, obstacles, 3, 500);
+            obsMan = new ObstacleManager(15, obstacles, 3, 500);
         }
 
         public override void Update(GameTime gameTime, KeyboardState kb)
@@ -58,14 +53,8 @@ namespace PASS3.Classes.Levels
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-
-
             base.Draw(spriteBatch);
             obsMan.Draw(spriteBatch);
-
-            
-
-
         }
 
         protected override void OnLevelOver()

@@ -106,8 +106,6 @@ namespace PASS3
             {
                 player.Draw(spriteBatch, Color.White, Animation.FLIP_NONE);
             }
-
-            spriteBatch.DrawRectangle(player.destRec, Color.Orange);
         }
 
         public Rectangle Rect

@@ -84,9 +84,6 @@ namespace PASS3.Classes.Screen
             searchBtn.X = Globals.GAME_WIDTH / 2 - searchBtn.BtRect.Width / 2;
             searchBtn.Y = (int)(Globals.GAME_HEIGHT / 1.5);
 
-            // initialize search with empty string
-            search = "";
-
             // create spritefont
             searchText = content.Load<SpriteFont>("Fonts/SearchFont");
 
@@ -95,6 +92,18 @@ namespace PASS3.Classes.Screen
             resultRect.X = Globals.GAME_WIDTH / 2 - resultRect.Width / 2;
             resultRect.Y = Globals.GAME_HEIGHT / 2 - resultRect.Height / 2;
             resultBg = new Helper.GameRectangle(gd, resultRect);
+
+            LoadContent();
+        }
+
+        public void LoadContent()
+        {
+            // initialize search with empty string
+            search = "";
+            // set to non button value so no buttons are highlighted
+            buttonState = 3;
+
+            showResult = false;
         }
 
         public void Update(GameTime gameTime)
@@ -113,6 +122,12 @@ namespace PASS3.Classes.Screen
             nameBtn.Update(mouseState);
             scoreBtn.Update(mouseState);
             searchBtn.Update(mouseState);
+
+            // if escape key is pressed, go back to menu
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                Globals.GameState = Menu.GAMESTATE;
+            }
 
             // If mouse is pressed, check if any buttons were pressed
             if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton != ButtonState.Pressed)

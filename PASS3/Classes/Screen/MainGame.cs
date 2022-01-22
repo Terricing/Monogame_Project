@@ -206,12 +206,9 @@ namespace PASS3
                                 state = GAME;
                                 Globals.LevelState = Level4.LEVEL;
                             }
-
-
                             break;
                     }
                     break;
-
             }
         }
 
@@ -243,7 +240,7 @@ namespace PASS3
                     }
 
                     lifeManager.Draw(spriteBatch);
-                    spriteBatch.DrawString(scoreFont, scoreText + Globals.Score, scorePos, Color.MediumVioletRed);
+                    spriteBatch.DrawString(scoreFont, scoreText + Globals.Score, scorePos, Color.MediumSeaGreen);
 
                     break;
                 case SCENE:
@@ -262,11 +259,8 @@ namespace PASS3
                             scene4.Draw(spriteBatch);
                             break;
                     }
-
                     break;
             }
-
-
             spriteBatch.End();
         }
 
