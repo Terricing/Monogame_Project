@@ -138,6 +138,7 @@ namespace PASS3.Classes.Screen
             prevMouseState = mouseState;
             mouseState = Mouse.GetState();
 
+            kb = Keyboard.GetState();
             // obtain pressed keys
             prevKeys = keys;
             keys = kb.GetPressedKeys();
